@@ -1,7 +1,10 @@
 # PDS
 Printemps des Sciences 2018
 
-## Dates
+## TODO
+
+- Lire articles: 
+
 
 ## Planing officiel
 

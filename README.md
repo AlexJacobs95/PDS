@@ -21,3 +21,7 @@ Printemps des Sciences 2018
 - 19 - 25 mars : printemps des sciences
 - 30 mars : date limite de remise du rapport scientifique
 
+
+## Liens utiles
+
+https://developer.chrome.com/extensions/nativeMessaging

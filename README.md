@@ -5,7 +5,7 @@ Printemps des Sciences 2018
 
 - Lire articles: 
 
-## Planing :
+## Planing
 
 [Google doc](https://docs.google.com/document/d/1AhPf8NOaU6Aem6HRUfJNpmVS-yzfYDsJnOrfgR4VplE/edit)
 

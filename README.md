@@ -8,7 +8,7 @@ Printemps des Sciences 2018
 ## Planing
 
 [Google doc](https://docs.google.com/document/d/1AhPf8NOaU6Aem6HRUfJNpmVS-yzfYDsJnOrfgR4VplE/edit)
-
+[Latex doc](https://www.overleaf.com/12240683hvstgkkwfgff)
 
 
 ## Planing officiel

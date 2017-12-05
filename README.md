@@ -1,6 +1,10 @@
 # PDS
 Printemps des Sciences 2018
 
+## Résumés articles
+
+[Google doc](https://docs.google.com/document/d/1Vgg57pdmgUG4xCS7hSC6xP5k4GovKCfQ4IM2LJRKDiM/edit?usp=sharing)
+
 ## TODO
 
 - Lire articles: 

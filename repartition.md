@@ -1,6 +1,6 @@
 - Alexandre: Automatic Deception Detection
 - Florian: Automated credibility assessment on twitter
 - Prateeba: Liar, Liar Pants on Fire
-- Benjamin:
+- Benjamin: Fake News Detection on Social Media: A Data Mining Perspective
 - David: Truth of Varying Shades
 - Greg: TweetCred - Real-Time Credibility Assessment of Content on Twitter

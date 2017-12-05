@@ -1,4 +1,4 @@
-- Alexandre:
+- Alexandre: Automatic Deception Detection
 - Florian:
 - Prateeba: Liar, Liar Pants on Fire
 - Benjamin:

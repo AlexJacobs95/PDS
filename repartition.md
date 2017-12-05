@@ -1,0 +1,6 @@
+- Alexandre:
+- Florian:
+- Prateeba: Liar, Liar Pants on Fire
+- Benjamin:
+- David: Truth of Varying Shades
+- Greg: TweetCred - Real-Time Credibility Assessment of Content on Twitter

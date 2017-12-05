@@ -1,5 +1,5 @@
 - Alexandre: Automatic Deception Detection
-- Florian:
+- Florian: Automated credibility assessment on twitter
 - Prateeba: Liar, Liar Pants on Fire
 - Benjamin:
 - David: Truth of Varying Shades

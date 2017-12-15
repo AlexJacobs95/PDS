@@ -5,7 +5,9 @@ Printemps des Sciences 2018
 
 [Google doc](https://docs.google.com/document/d/1Vgg57pdmgUG4xCS7hSC6xP5k4GovKCfQ4IM2LJRKDiM/edit?usp=sharing)
 
-## TODO
+## Presentation
+
+https://docs.google.com/presentation/d/1jXkH232kd5Wf4L6MA7hTQCK2LAfmDP5Bx5To4rg0qzA/edit?usp=sharing
 
 - Lire articles: 
 

@@ -60,8 +60,8 @@ include 'menubar.php';
 
     <div class="container">
         <div class="intro-text" id="intro" style="display: none; background-color: ">
-            <div class="intro-lead-in" id="bienvenue">Welcome on Fake News Detector</div>
-            <div class="intro-heading" id="sous-titre">Enter the address (URL) of a article below or the name of a site to find out if the source of the information is fairly reliable or no.</div>
+            <div class="intro-heading" id="bienvenue">Welcome on Fake News Detector</div>
+            <div class="intro-lead-in" id="sous-titre">Enter the address (URL) of a article below or the name of a site to find out if the source of the information is fairly reliable or no.</div>
 
             <!-- search bar -->
             <form action="search_results.php" style="display: inline-block">

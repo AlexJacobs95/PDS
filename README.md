@@ -1,6 +1,7 @@
 # PDS
 Printemps des Sciences 2018
 
+
 ## Résumés articles
 
 [Google doc](https://docs.google.com/document/d/1Vgg57pdmgUG4xCS7hSC6xP5k4GovKCfQ4IM2LJRKDiM/edit?usp=sharing)
@@ -15,6 +16,7 @@ https://docs.google.com/presentation/d/1jXkH232kd5Wf4L6MA7hTQCK2LAfmDP5Bx5To4rg0
 
 * [Latex doc](https://www.overleaf.com/12240683hvstgkkwfgff)
 
+* [Répartition](https://docs.google.com/document/d/1cwKMxXM_aRZrQ1QV-udUW2dDhaDuJ1DZY5Zh50XlvxU/edit?usp=sharing)
 
 ## Planing officiel
 

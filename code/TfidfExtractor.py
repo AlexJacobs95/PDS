@@ -4,19 +4,23 @@ import time
 
 
 class TfidfExtractor:
+    def __init__(self, ngram):
+        self.vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english', ngram_range=(1, ngram))
 
-    @staticmethod
-    def extract(data, ngram):
-        vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english', ngram_range=(1, ngram))
+    def extract_train(self, data):
         print("Extracting Tfidf...")
         t0 = time.time()
-        features = vectorizer.fit_transform(data.text)
+        features = self.vectorizer.fit_transform(data.text)
         extract_time = time.time() - t0
         print("extract time: %0.3fs" % extract_time)
 
         return features
 
+    def extract_test(self, data):
+        print("Extracting Tfidf...")
+        t0 = time.time()
+        features = self.vectorizer.transform(data.text)
+        extract_time = time.time() - t0
+        print("extract time: %0.3fs" % extract_time)
 
-if __name__ == '__main__':
-    # test 1-gram
-    res = TfidfExtractor.extract("../../CLASSIFIEROFDOOM/fakenewsfiles/fakenewsfiles/train.csv", 1)
+        return features

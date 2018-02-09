@@ -5,18 +5,10 @@ import numpy as np
 from time import time
 import matplotlib.pyplot as plt
 
-from sklearn.feature_selection import SelectFromModel
-from sklearn.linear_model import RidgeClassifier
-from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC
-from sklearn.linear_model import SGDClassifier
-from sklearn.linear_model import Perceptron
-from sklearn.linear_model import PassiveAggressiveClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import BernoulliNB, MultinomialNB
+from sklearn.linear_model import RidgeClassifier, SGDClassifier, Perceptron, PassiveAggressiveClassifier, \
+    LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import NearestCentroid
-from sklearn.ensemble import RandomForestClassifier
 from sklearn import metrics
 
 
@@ -26,15 +18,6 @@ class Result:
         self.score = score
         self.training_time = training_time
         self.testing_time = testing_time
-
-
-dataframe_train = pd.read_csv("../dataset/train_bis.csv")
-dataframe_test = pd.read_csv("../dataset/balancedtest_bis.csv")
-
-extractor = TfidfExtractor(ngram=1)
-
-train_features = extractor.extract_train(dataframe_train)
-test_features = extractor.extract_test(dataframe_test)
 
 
 def benchmark(clf, name):
@@ -57,6 +40,15 @@ def benchmark(clf, name):
     return Result(name, score, train_time, test_time)
 
 
+dataframe_train = pd.read_csv("../dataset/train_bis.csv")
+dataframe_test = pd.read_csv("../dataset/balancedtest_bis.csv")
+
+extractor = TfidfExtractor(ngram=1)
+
+train_features = extractor.extract_train(dataframe_train)
+test_features = extractor.extract_test(dataframe_test)
+
+
 results = []
 for clf, name in (
         (RidgeClassifier(tol=1e-2, solver="lsqr"), "Ridge Classifier"),
@@ -66,12 +58,11 @@ for clf, name in (
         (LogisticRegression(), 'Logistic regression'),
         (SGDClassifier(alpha=.0001, n_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
         (NearestCentroid(), 'Nearest centroid')):
-
     print('=' * 80)
     print(name)
     results.append(benchmark(clf, name))
 
-# make some plots
+# Plots
 
 indices = np.arange(len(results))
 
@@ -100,7 +91,14 @@ for i, c in zip(indices, clf_names):
 
 plt.show()
 
-results = results.sort(key=lambda x: x.clf, reverse=True)
-print("Classement : ")
-for res in results:
-    print(res.clf + " - " + res.score)
+# Ranking
+
+results.sort(key=lambda x: x.score, reverse=True)
+d = {"clf": clf_names, "scores": score}
+
+ranking = pd.DataFrame(data=d)
+ranking = ranking.sort_values(by="scores", ascending=False)
+new_index = [i for i in range(1, len(ranking.index) + 1)]
+ranking.index = new_index
+print("RANKING :")
+print(ranking)

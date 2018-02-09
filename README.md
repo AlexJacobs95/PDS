@@ -8,9 +8,11 @@ Printemps des Sciences 2018
 
 ## Presentation
 
-https://docs.google.com/presentation/d/1jXkH232kd5Wf4L6MA7hTQCK2LAfmDP5Bx5To4rg0qzA/edit?usp=sharing
+[Presentation](https://docs.google.com/presentation/d/1jXkH232kd5Wf4L6MA7hTQCK2LAfmDP5Bx5To4rg0qzA/edit?usp=sharing)
 
 ## Planing
+
+* [Trello](https://trello.com/b/aBqQalgj/impl%C3%A9mentation)
 
 * [Google doc](https://docs.google.com/document/d/1AhPf8NOaU6Aem6HRUfJNpmVS-yzfYDsJnOrfgR4VplE/edit)
 

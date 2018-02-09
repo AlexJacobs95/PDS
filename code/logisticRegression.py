@@ -99,3 +99,8 @@ for i, c in zip(indices, clf_names):
     plt.text(-.3, i, c)
 
 plt.show()
+
+results = results.sort(key=lambda x: x.clf, reverse=True)
+print("Classement : ")
+for res in results:
+    print(res.clf + " - " + res.score)

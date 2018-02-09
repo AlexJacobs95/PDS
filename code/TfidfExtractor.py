@@ -6,8 +6,7 @@ import time
 class TfidfExtractor:
 
     @staticmethod
-    def extract(filename, ngram):
-        data = pd.read_csv(filename, names = ["code", "text"])
+    def extract(data, ngram):
         vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english', ngram_range=(1, ngram))
         print("Extracting Tfidf...")
         t0 = time.time()

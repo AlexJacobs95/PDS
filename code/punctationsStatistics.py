@@ -3,6 +3,7 @@ import string # pour avoir liste de ponctuation
 from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 import time
+# from spacy.lang.en import English as EN
 
 
 class PunctuationStatisticsVectorizer(CountVectorizer):
@@ -21,7 +22,17 @@ class PunctuationStatisticsVectorizer(CountVectorizer):
                 article = article.replace(char,"")
         return article
 
+    # def prepare_article(self, article)
+    #
+    #     parser = EN()
+    #     tokens = parser(article)
+    #     tokens_punctuation = [token.orth_ for token in tokens if token.is_punct]
+    #     tokens_punctuation = "".join(tokens_punctuation)
+    #
+    #     return tokens_punctuation
+
     def build_analyzer(self):
+
         preprocess = self.build_preprocessor()
         return lambda article : preprocess(self.decode(self.prepare_article(article)))
 

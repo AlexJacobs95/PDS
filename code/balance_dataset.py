@@ -15,7 +15,7 @@ def balance(filename, num_by_cat):
         balanced = balanced.append(selected_texts)
 
     # Add the 750 real news
-    balanced = balanced.append(unbalanced.loc[unbalanced['code'] == 4])
+    balanced = balanced.append(unbalanced.loc[unbalanced['code'] == 4][:3*num_by_cat])
     print(balanced.groupby('code').size())
 
     return balanced

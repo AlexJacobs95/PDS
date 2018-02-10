@@ -51,7 +51,7 @@ class PunctuationExtractor:
 
 
 def main():
-    
+
     parser = argparse.ArgumentParser(description='Punctation Statistics from csv file')
     parser.add_argument('-t', "--trainset", action='store', default=None, help=('Path to csv file '"[default: %(default)s]"))
     args = parser.parse_args()
@@ -59,6 +59,8 @@ def main():
     data = pd.read_csv(working_file)
     extractor = PunctuationExtractor()
     features = extractor.extract_train(data)
+    print(features.getrow(0))
+    print(extractor.punctuation_statistics_vect.vocabulary_)
 
 if __name__ == '__main__':
     main()

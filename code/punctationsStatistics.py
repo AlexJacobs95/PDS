@@ -25,15 +25,6 @@ class PunctuationStatisticsVectorizer(CountVectorizer):
         preprocess = self.build_preprocessor()
         return lambda article : preprocess(self.decode(self.prepare_article(article)))
 
-# def extract_articles(data_file):
-#
-#     list_articles = []
-#     data_file_df = pd.read_csv(data_file, names=["code","text"])
-#     for i in range(1,len(data_file_df.index)):
-#         list_articles.append(data_file_df.iloc[i]["text"])
-#     return list_articles
-
-
 class PunctuationExtractor:
     def __init__(self):
         self.punctuation_statistics_vect = PunctuationStatisticsVectorizer()
@@ -60,16 +51,14 @@ class PunctuationExtractor:
 
 
 def main():
-    # parser = argparse.ArgumentParser(description='Punctation Statistics from csv file')
-    # parser.add_argument('-t', "--trainset", action='store', default=None, help=('Path to csv file '"[default: %(default)s]"))
-    # args = parser.parse_args()
-    # working_file = args.trainset
-    # list_articles = extract_articles(working_file)
-    data = pd.read_csv("../dataset/train_bis.csv")
+    
+    parser = argparse.ArgumentParser(description='Punctation Statistics from csv file')
+    parser.add_argument('-t', "--trainset", action='store', default=None, help=('Path to csv file '"[default: %(default)s]"))
+    args = parser.parse_args()
+    working_file = args.trainset
+    data = pd.read_csv(working_file)
     extractor = PunctuationExtractor()
     features = extractor.extract_train(data)
-    # print(punctuation_statistics_matrix)
-    # print(punctuation_statistics_vect.vocabulary_)
 
 if __name__ == '__main__':
     main()

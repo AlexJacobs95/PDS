@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
 
@@ -11,12 +12,11 @@ class SentimentExtractor :
 			blob = TextBlob(news,analyzer=NaiveBayesAnalyzer())
 			output.append([blob.sentiment.p_pos,blob.sentiment.p_neg])
 	
-		return output
+		return np.vstack(output)
 
 	def store_tocsv(self, results) : 
-		df = pd.DataFrame(results)
-		df.fillna('', inplace=True)
-		df.to_csv('sentiment.csv')
+		df = pd.DataFrame(results,columns=["positive","negative"])
+		df.to_csv("sentiment.csv")
 		
 
 if __name__ == '__main__': 
@@ -24,4 +24,3 @@ if __name__ == '__main__':
 	s_extractor = SentimentExtractor() 
 	results = s_extractor.extract(data)
 	s_extractor.store_tocsv(results)
-	

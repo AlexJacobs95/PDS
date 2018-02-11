@@ -38,8 +38,8 @@ def benchmark(clf, name):
     return Result(name, score, train_time, test_time)
 
 
-dataframe_train = pd.read_csv("../dataset/train_bis.csv", index_col=0)
-dataframe_test = pd.read_csv("../dataset/test_OK.csv", index_col=0)
+dataframe_train = pd.read_csv("../dataset/train_bis.csv")
+dataframe_test = pd.read_csv("../dataset/test_OK.csv")
 
 extractor = TfidfExtractor(ngram=1)
 

@@ -33,7 +33,8 @@ def benchmark(clf, name):
     print("test time:  %0.3fs" % test_time)
 
     score = metrics.accuracy_score(dataframe_test.code, pred)
-    print("accuracy:   %0.3f" % score)
+    print("Stats :")
+    print(metrics.classification_report(dataframe_test.code, pred))
     print()
     return Result(name, score, train_time, test_time)
 
@@ -49,13 +50,13 @@ test_features = extractor.extract_test(dataframe_test)
 
 results = []
 for clf, name in (
-        (RidgeClassifier(tol=1e-2, solver="lsqr"), "Ridge Classifier"),
-        (Perceptron(n_iter=50), "Perceptron"),
-        (PassiveAggressiveClassifier(n_iter=50), "Passive-Aggressive"),
+        (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
+        (Perceptron(max_iter=50), "Perceptron"),
+        (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
         # (KNeighborsClassifier(n_neighbors=10), "kNN"),
         (MultinomialNB(), 'Naive Bayes'),
         (LogisticRegression(), 'Logistic regression'),
-        (SGDClassifier(alpha=.0001, n_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
+        (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
         (NearestCentroid(), 'Nearest centroid')
         ):
     print('=' * 80)

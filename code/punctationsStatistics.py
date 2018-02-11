@@ -58,21 +58,41 @@ class PunctuationExtractor:
 
         return features
 
+def csrtomatrix(data, vocabulary):
+    matrix = [[ 0 for _ in range(len(vocabulary)) ] for _ in range(data.shape[0]) ]
+    for i in range(data.shape[0]) :
+        for j in range(len(vocabulary)):
+            if data[i,j]:
+                matrix[i][j]=data[i,j]
+    return matrix
+
+def create_csv_file(data, vocabulary, output_file):
+
+    data = csrtomatrix(data, sorted(tuple(vocabulary.items())))
+    table = pd.DataFrame(data)
+    table.columns = sorted(list(vocabulary))
+    table.index = [str(i) for i in range(len(data))]
+    table.to_csv(output_file)
+
 
 def main():
     parser = argparse.ArgumentParser(description='Punctation Statistics from csv file')
-    parser.add_argument('-t', "--trainset", action='store', default=None,
-                        help=('Path to csv file '"[default: %(default)s]"))
+    parser.add_argument('-t', "--trainset", action='store',
+    default="../dataset/balancedtest.csv",
+    help=('Path to csv file '"[default: %(default)s]"))
+    parser.add_argument('-o', "--output", action='store',
+    default='../dataset/result_extraction_punctuation.csv',
+    help=('Path to csv file '"[default: %(default)s]"))
     args = parser.parse_args()
     working_file = args.trainset
+    output_file = args.output
     data = pd.read_csv(working_file)
     extractor = PunctuationExtractor()
     features = extractor.extract_train(data)
     print(features.getrow(0))
     print(extractor.punctuation_statistics_vect.vocabulary_)
-    df_features = pd.DataFrame(features.toarray())
-    df_features.to_csv('../dataset/result_extraction_punctuation.csv')
+    create_csv_file(features, extractor.punctuation_statistics_vect.vocabulary_, output_file)
 
 
 if __name__ == '__main__':
-    main()
+     main()

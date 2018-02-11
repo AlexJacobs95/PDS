@@ -22,7 +22,7 @@ class PunctuationStatisticsVectorizer(CountVectorizer):
                 article = article.replace(char,"")
         return article
 
-    # def prepare_article(self, article)
+    # def prepare_article(self, article):
     #
     #     parser = EN()
     #     tokens = parser(article)

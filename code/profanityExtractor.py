@@ -25,9 +25,10 @@ class ProfanityExtractor:
         done = 0
         t0 = time.time()
         for article in data.text:
-            result.append(self.count_profanities(article))
+            result.append(self.count_profanities(article) / len(article.split()))
             done += 1
             print("Done : " + str(done) + '/' + str(len(data)))
+
         extract_time = time.time() - t0
         print("extract time: %0.3fs" % extract_time)
 

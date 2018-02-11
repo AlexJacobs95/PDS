@@ -10,6 +10,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import RidgeClassifier, SGDClassifier, Perceptron, PassiveAggressiveClassifier, \
     LogisticRegression
 
+
 class Result:
     def __init__(self, clf, score, training_time, testing_time):
         self.clf = clf
@@ -47,7 +48,6 @@ extractor = TfidfExtractor(ngram=1)
 train_features = extractor.extract_train(dataframe_train)
 test_features = extractor.extract_test(dataframe_test)
 
-
 results = []
 for clf, name in (
         (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
@@ -58,7 +58,7 @@ for clf, name in (
         (LogisticRegression(), 'Logistic regression'),
         (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
         (NearestCentroid(), 'Nearest centroid')
-        ):
+):
     print('=' * 80)
     print(name)
     results.append(benchmark(clf, name))

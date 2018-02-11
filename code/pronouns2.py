@@ -58,7 +58,7 @@ class PronounExtractor:
   
 if __name__ == '__main__':
     
-    dataframe_test = pd.read_csv("/home/prateeba/Desktop/BA3/Pds/Datasets/Datasheets/second.csv")
+    dataframe_test = pd.read_csv("../dataset/balancedtest_bis.csv")
     extractor = PronounExtractor()
     start = time.time()
     

@@ -4,11 +4,11 @@ import time
 import numpy as np
 from time import time
 
+from sklearn import metrics
+from sklearn.neighbors import NearestCentroid
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import RidgeClassifier, SGDClassifier, Perceptron, PassiveAggressiveClassifier, \
     LogisticRegression
-from sklearn.neighbors import NearestCentroid
-from sklearn import metrics
-
 
 class Result:
     def __init__(self, clf, score, training_time, testing_time):
@@ -53,6 +53,7 @@ for clf, name in (
         (Perceptron(n_iter=50), "Perceptron"),
         (PassiveAggressiveClassifier(n_iter=50), "Passive-Aggressive"),
         # (KNeighborsClassifier(n_neighbors=10), "kNN"),
+        (MultinomialNB(), 'Naive Bayes'),
         (LogisticRegression(), 'Logistic regression'),
         (SGDClassifier(alpha=.0001, n_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
         (NearestCentroid(), 'Nearest centroid')
@@ -67,9 +68,6 @@ clf_names = [res.clf for res in results]
 score = [res.score for res in results]
 training_time = [res.training_time for res in results]
 test_time = [res.testing_time for res in results]
-
-training_time = np.array(training_time) / np.max(training_time)
-test_time = np.array(test_time) / np.max(test_time)
 
 # Ranking
 

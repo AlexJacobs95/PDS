@@ -4,3 +4,11 @@ textstat
 sklearn
 spacy
 textblob
+keras
+
+# Install Tensorflow with CPU support (no GPU support)
+tensorflow
+
+# If you have an NVidia GPU, this package installs Tensorflow with GPU support (making it a lot faster)
+# If you decide to install this package, comment the line with 'tensorflow'
+#tensorflow-gpu

@@ -4,6 +4,8 @@ import spacy
 import time
 import string
 
+from tqdm import tqdm
+
 
 def makeDict(pronounList):
     return {pronoun: index for (index, pronoun) in enumerate(pronounList)}
@@ -47,10 +49,7 @@ class PronounExtractor:
         wh_personal_results = []
         wh_possessive_results = []
 
-        print("Len data: %d" % len(data))
-        i = 1
-        for article in data:
-            print(i)
+        for article in tqdm(data):
             article = self.remove_punctuation(article)
             doc = self.nlp(article)
             size = len(article)
@@ -58,14 +57,13 @@ class PronounExtractor:
             possessive_results.append(self.extract(doc, size, self.possessive_pronoun_dict, "PRP$"))
             wh_personal_results.append(self.extract(doc, size, self.wh_personal_pronoun_dict, "WP"))
             wh_possessive_results.append(self.extract(doc, size, self.wh_possessive_pronoun_dict, "WP$"))
-            i += 1
 
         return np.vstack(personal_results), np.vstack(possessive_results), np.vstack(wh_personal_results), np.vstack(
             wh_possessive_results)
 
 
 if __name__ == '__main__':
-    dataframe_test = pd.read_csv("../dataset/balancedtest_bis.csv")
+    dataframe_test = pd.read_csv("../dataset/test_OK.csv")
     extractor = PronounExtractor()
     start = time.time()
 
@@ -73,14 +71,11 @@ if __name__ == '__main__':
     extract_time = time.time() - start
     print("extract time: %0.3fs" % extract_time)
 
-    df = pd.DataFrame(r1, columns=["i", "you", "she", "he", "it", "we", "they"])
-    df.to_csv("personal_pronouns_feature.csv")
+    from utils import saveMatrixAsCSV
 
-    df = pd.DataFrame(r2, columns=["mine", "yours", "his", "hers", "ours", "theirs"])
-    df.to_csv("possessive_pronouns_feature.csv")
-
-    df = pd.DataFrame(r3, columns=["what", "who", "whom"])
-    df.to_csv("wh_personal_pronouns_feature.csv")
-
-    df = pd.DataFrame(r4, columns=["whose", "whosever"])
-    df.to_csv("wh_possessive_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r1, columnNames=["i", "you", "she", "he", "it", "we", "they"],
+                    filename="personal_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r2, columnNames=["mine", "yours", "his", "hers", "ours", "theirs"],
+                    filename="possessive_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r3, columnNames=["what", "who", "whom"], filename="wh_personal_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r4, columnNames=["whose", "whosever"], filename="wh_possessive_pronouns_feature.csv")

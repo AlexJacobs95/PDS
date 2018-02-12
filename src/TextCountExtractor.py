@@ -11,9 +11,9 @@ class TextCountExtractor:
     """
 
     def getArticleInfo(self, article):
-        length = len(article)
-        wordCount = len(article.split())
-        return [length, wordCount]
+        numChars = len(article)
+        numWords = len(article.split())
+        return [numChars, numWords]
 
     def transform(self, data):
         results = [self.getArticleInfo(article) for article in data]
@@ -22,8 +22,11 @@ class TextCountExtractor:
 
 if __name__ == '__main__':
     # dataframe_train = pd.read_csv("../dataset/train_bis.csv")
-    dataframe_test = pd.read_csv("../dataset/balancedtest_bis.csv")
+    dataframe_test = pd.read_csv("../dataset/test_OK.csv")
 
     extractor = TextCountExtractor()
     results = extractor.transform(dataframe_test.text)
+
+    from utils import saveMatrixAsCSV
+    saveMatrixAsCSV(results, columnNames=["numChars", "numWords"], filename="text_count_features.csv")
     print(results)

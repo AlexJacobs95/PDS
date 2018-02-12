@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+echo "Creating required directories"
+mkdir dataset -p
+mkdir dataset/features -p
+
 echo "Installing all Python packages for the project"
 sudo pip3 install -r requirements.txt
 

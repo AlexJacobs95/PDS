@@ -5,6 +5,7 @@ sklearn
 spacy
 textblob
 keras
+tqdm
 
 # Install Tensorflow with CPU support (no GPU support)
 tensorflow

@@ -6,10 +6,11 @@ import string
 
 
 class PronounExtractor:
-    """ Does a part-of-speech tagging to extract all categories of pronouns treated by spacy
-    Returns a n x len(pronoun listq) matrix of values for each category 
-    each line contains the relative frequency of each pronouns
-    Convert the results in csv file
+    """
+    Does a part-of-speech tagging to extract all categories of pronouns treated by spacy
+    Returns a n x len(pronoun list) matrix of values for each category
+    Each line contains the relative frequency of each pronoun
+    Convert the results in csv file.
     """
 
     def __init__(self):
@@ -24,7 +25,7 @@ class PronounExtractor:
         return text.translate(translator)
 
     def extract(self, article, p_list, p_tag):
-        res = [0 for _ in range(len(p_list))]
+        res = [0] * len(p_list)  # Liste de zeros de taille len(p_list)
         print(len(res))
         article = self.remove_punctuation(article)
         size = len(article)
@@ -53,6 +54,7 @@ class PronounExtractor:
             wh_personal_results.append(self.extract(article, self.wh_personal_pronoun_list, "WP"))
             wh_possessive_results.append(self.extract(article, self.wh_possessive_pronoun_list, "WP$"))
             i += 1
+
         return np.vstack(personal_results), np.vstack(possessive_results), np.vstack(wh_personal_results), np.vstack(
             wh_possessive_results)
 

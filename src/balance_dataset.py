@@ -1,12 +1,10 @@
 import pandas as pd
 
 
-def balance(filename, num_by_cat):
+def createBalancedDataset(filename, num_by_cat):
     """
-    Return a Dataset containing the same number of fake news
-    than real ones.
+    Creates a balanced dataset containing the same number of fake news as real news.
     """
-
     unbalanced = pd.read_csv(filename, names=['code', 'text'])
     balanced = pd.DataFrame(columns=['code', 'text'])
     for code in range(1, 4):
@@ -22,7 +20,7 @@ def balance(filename, num_by_cat):
 
 
 if __name__ == "__main__":
-    balanced_test = balance("../dataset/balancedtest.csv", 250)
+    balanced_test = createBalancedDataset("../dataset/balancedtest.csv", 250)
     # balanced_train = balance("../dataset/train.csv", 3331)
 
     balanced_test.to_csv("../dataset/test_OK.csv")

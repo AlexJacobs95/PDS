@@ -9,6 +9,7 @@ class TextCountExtractor:
      - the number of characters in each article
     If there are n articles, it returns a n x 2 matrix of values (n rows, 2 columns)
     """
+
     def getArticleInfo(self, article):
         length = len(article)
         wordCount = len(article.split())
@@ -17,7 +18,6 @@ class TextCountExtractor:
     def transform(self, data):
         results = [self.getArticleInfo(article) for article in data]
         return np.vstack(results)
-
 
 
 if __name__ == '__main__':

@@ -7,17 +7,16 @@ class ProfanityExtractor:
     """
     Extracts the relative frequency of profanities in each article
     """
-
     def __init__(self, dictionary):
         self.dictionary = json.load(open(dictionary))
 
     def count_profanities(self, article):
-        count = 0
+        numProfanities = 0
         for word in article.split():
             if word in self.dictionary:
-                count += 1
+                numProfanities += 1
 
-        return count
+        return numProfanities
 
     def extract(self, data):
         result = []

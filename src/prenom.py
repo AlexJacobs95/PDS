@@ -3,17 +3,18 @@ from textblob import TextBlob
 
 
 class PronounExtractor:
-    """ Does a part-of-speech tagging to extract all pronouns
-         Returns a list of number of pronouns per article """
-
-    def extract(self, article):
+    """
+    Does a part-of-speech tagging to extract all pronouns
+    Returns a list of number of pronouns per article
+    """
+    def extract(self, texts):
         output = []
-        for news in data.text:
+        for news in texts:
             count = 0
             blob = TextBlob(news)
             for sentence in blob.sentences:
                 for tag in sentence.tags:
-                    if (tag[1] == 'PRP'):
+                    if tag[1] == 'PRP':
                         count += 1
             output.append(count)
         return output

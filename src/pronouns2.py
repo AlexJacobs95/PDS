@@ -4,6 +4,8 @@ import spacy
 import time
 import string
 
+from tqdm import tqdm
+
 
 def makeDict(pronounList):
     return {pronoun: index for (index, pronoun) in enumerate(pronounList)}
@@ -47,10 +49,7 @@ class PronounExtractor:
         wh_personal_results = []
         wh_possessive_results = []
 
-        print("Len data: %d" % len(data))
-        i = 1
-        for article in data:
-            print(i)
+        for article in tqdm(data):
             article = self.remove_punctuation(article)
             doc = self.nlp(article)
             size = len(article)
@@ -58,7 +57,6 @@ class PronounExtractor:
             possessive_results.append(self.extract(doc, size, self.possessive_pronoun_dict, "PRP$"))
             wh_personal_results.append(self.extract(doc, size, self.wh_personal_pronoun_dict, "WP"))
             wh_possessive_results.append(self.extract(doc, size, self.wh_possessive_pronoun_dict, "WP$"))
-            i += 1
 
         return np.vstack(personal_results), np.vstack(possessive_results), np.vstack(wh_personal_results), np.vstack(
             wh_possessive_results)

@@ -2,6 +2,8 @@ import json
 import pandas as pd
 import time
 
+from tqdm import tqdm
+
 
 class ProfanityExtractor:
     """
@@ -24,12 +26,9 @@ class ProfanityExtractor:
     def extract(self, data):
         result = []
         print("Extracting profanities...")
-        done = 0
         t0 = time.time()
-        for article in data.text:
+        for article in tqdm(data.text):
             result.append(self.getRelFrequencyProfanities(article))
-            done += 1
-            print("Done : " + str(done) + '/' + str(len(data)))
 
         extract_time = time.time() - t0
         print("extract time: %0.3fs" % extract_time)

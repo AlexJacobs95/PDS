@@ -1,0 +1,6 @@
+pandas
+numpy
+textstat
+sklearn
+spacy
+textblob

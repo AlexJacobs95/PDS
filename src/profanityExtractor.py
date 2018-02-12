@@ -11,13 +11,15 @@ class ProfanityExtractor:
     def __init__(self, dictionary):
         self.dictionary = json.load(open(dictionary))
 
-    def count_profanities(self, article):
+    def getRelFrequencyProfanities(self, article):
         numProfanities = 0
-        for word in article.split():
+        words = article.split()
+        length = len(words)
+        for word in words:
             if word in self.dictionary:
                 numProfanities += 1
 
-        return numProfanities
+        return numProfanities / length
 
     def extract(self, data):
         result = []
@@ -25,7 +27,7 @@ class ProfanityExtractor:
         done = 0
         t0 = time.time()
         for article in data.text:
-            result.append(self.count_profanities(article) / len(article.split()))
+            result.append(self.getRelFrequencyProfanities(article))
             done += 1
             print("Done : " + str(done) + '/' + str(len(data)))
 

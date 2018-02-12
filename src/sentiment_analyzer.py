@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
 
 
 class SentimentExtractor:
@@ -43,7 +44,7 @@ class SentimentExtractor:
 
     def words_classifier(self, data):
         result = []
-        for article in data.text:
+        for article in tqdm(data.text):
             result.append(self.count(article))
 
         return np.vstack(result)
@@ -56,4 +57,5 @@ if __name__ == '__main__':
     results = s.words_classifier(data_article)
 
     from utils import saveMatrixAsCSV
+
     saveMatrixAsCSV(results, columnNames=["positive", "negative", "neutral"], filename="sentiment_result_features.csv")

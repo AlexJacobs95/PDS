@@ -3,6 +3,7 @@ import numpy as np
 import spacy
 import time
 import string
+from tqdm import tqdm
 
 
 def makeDict(list_):
@@ -11,7 +12,6 @@ def makeDict(list_):
 
 class PunctuationExtractor:
     """"""
-
 
     def __init__(self):
         self.nlp = spacy.load('en')
@@ -28,14 +28,11 @@ class PunctuationExtractor:
         return res
 
     def transform(self, data):
-        i = 1
         results = []
-        for article in data:
-            print(i)
+        for article in tqdm(data):
             doc = self.nlp(article)
             size = len(article)
             results.append(self.extract(doc, size))
-            i += 1
 
         return np.vstack(results)
 

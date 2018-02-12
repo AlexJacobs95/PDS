@@ -21,7 +21,7 @@ class PronounExtractor:
 
 
 if __name__ == '__main__':
-    data = pd.read_csv("../dataset/balancedtest_bis.csv")
+    data = pd.read_csv("../dataset/test_OK.csv")
     p_extractor = PronounExtractor()
     results = p_extractor.extract(data.text)
     print(results)

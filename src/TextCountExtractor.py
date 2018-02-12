@@ -22,7 +22,7 @@ class TextCountExtractor:
 
 if __name__ == '__main__':
     # dataframe_train = pd.read_csv("../dataset/train_bis.csv")
-    dataframe_test = pd.read_csv("../dataset/balancedtest_bis.csv")
+    dataframe_test = pd.read_csv("../dataset/test_OK.csv")
 
     extractor = TextCountExtractor()
     results = extractor.transform(dataframe_test.text)

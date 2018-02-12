@@ -17,7 +17,7 @@ class SentimentExtractor:
 
 
 if __name__ == '__main__':
-    data = pd.read_csv("../dataset/balancedtest_bis.csv")
+    data = pd.read_csv("../dataset/test_OK.csv")
     s_extractor = SentimentExtractor()
     results = s_extractor.extract(data)
 

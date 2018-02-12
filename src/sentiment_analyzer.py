@@ -51,7 +51,7 @@ class SentimentExtractor:
 
 if __name__ == '__main__':
     data = pd.read_csv("../resources/emotion.csv")
-    data_article = pd.read_csv("../dataset/balancedtest_bis.csv")
+    data_article = pd.read_csv("../dataset/test_OK.csv")
     s = SentimentExtractor(data)
     results = s.words_classifier(data_article)
 

@@ -5,6 +5,10 @@ import time
 import string
 
 
+def makeDict(pronounList):
+    return {pronoun: index for (index, pronoun) in enumerate(pronounList)}
+
+
 class PronounExtractor:
     """
     Does a part-of-speech tagging to extract all categories of pronouns treated by spacy
@@ -15,26 +19,23 @@ class PronounExtractor:
 
     def __init__(self):
         self.nlp = spacy.load('en')
-        self.personal_pronoun_list = ["i", "you", "she", "he", "it", "we", "they"]
-        self.possessive_pronoun_list = ["mine", "yours", "his", "hers", "ours", "theirs"]
-        self.wh_personal_pronoun_list = ["what", "who", "whom"]
-        self.wh_possessive_pronoun_list = ["whose", "whosever"]
+        self.personal_pronoun_dict = makeDict(["i", "you", "she", "he", "it", "we", "they"])
+        self.possessive_pronoun_dict = makeDict(["mine", "yours", "his", "hers", "ours", "theirs"])
+        self.wh_personal_pronoun_dict = makeDict(["what", "who", "whom"])
+        self.wh_possessive_pronoun_dict = makeDict(["whose", "whosever"])  # {whose: 0, whosever: 1}
 
     def remove_punctuation(self, text):
         translator = str.maketrans('', '', string.punctuation)
         return text.translate(translator)
 
-    def extract(self, article, p_list, p_tag):
-        res = [0] * len(p_list)  # Liste de zeros de taille len(p_list)
-        print(len(res))
-        article = self.remove_punctuation(article)
-        size = len(article)
-        doc = self.nlp(article)
-
+    def extract(self, doc, size, p_dict, p_tag):
+        res = [0] * len(p_dict.items())  # Liste de zeros avec la taille du dictionnaire
+        # print(len(res))
         for token in doc:
             if token.tag_ == p_tag:
-                if token.text.lower() in p_list:
-                    res[p_list.index(token.text.lower())] += 1
+                lowerText = token.text.lower()
+                if lowerText in p_dict:
+                    res[p_dict[lowerText]] += 1
 
         res = [val / size for val in res]
 
@@ -46,13 +47,17 @@ class PronounExtractor:
         wh_personal_results = []
         wh_possessive_results = []
 
+        print("Len data: %d" % len(data))
         i = 1
         for article in data:
-            # print(i)
-            personal_results.append(self.extract(article, self.personal_pronoun_list, "PRP"))
-            possessive_results.append(self.extract(article, self.possessive_pronoun_list, "PRP$"))
-            wh_personal_results.append(self.extract(article, self.wh_personal_pronoun_list, "WP"))
-            wh_possessive_results.append(self.extract(article, self.wh_possessive_pronoun_list, "WP$"))
+            print(i)
+            article = self.remove_punctuation(article)
+            doc = self.nlp(article)
+            size = len(article)
+            personal_results.append(self.extract(doc, size, self.personal_pronoun_dict, "PRP"))
+            possessive_results.append(self.extract(doc, size, self.possessive_pronoun_dict, "PRP$"))
+            wh_personal_results.append(self.extract(doc, size, self.wh_personal_pronoun_dict, "WP"))
+            wh_possessive_results.append(self.extract(doc, size, self.wh_possessive_pronoun_dict, "WP$"))
             i += 1
 
         return np.vstack(personal_results), np.vstack(possessive_results), np.vstack(wh_personal_results), np.vstack(

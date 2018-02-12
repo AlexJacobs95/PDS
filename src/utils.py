@@ -7,4 +7,4 @@ def saveMatrixAsCSV(matrix, columnNames, filename):
 
 
 def saveCSV(dataframe, filename):
-    dataframe.to_csv("../dataset/features/%s" % filename)
+    dataframe.to_csv("../dataset/features/%s" % filename, index_label='index')

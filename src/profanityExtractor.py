@@ -7,6 +7,7 @@ class ProfanityExtractor:
     """
     Extracts the relative frequency of profanities in each article
     """
+
     def __init__(self, dictionary):
         self.dictionary = json.load(open(dictionary))
 
@@ -38,4 +39,8 @@ if __name__ == '__main__':
     dataset = pd.read_csv('../dataset/test_OK.csv')
     extractor = ProfanityExtractor('../resources/profanities.json')
     res = extractor.extract(dataset)
+
+    from utils import saveMatrixAsCSV
+
+    saveMatrixAsCSV(matrix=res, columnNames=["relFrequencyProfanities"], filename="profanities_features.csv")
     print(res)

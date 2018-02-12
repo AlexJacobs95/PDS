@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
+from utils import saveMatrixAsCSV
 
 
 class SentimentExtractor:
@@ -14,13 +15,10 @@ class SentimentExtractor:
 
         return np.vstack(output)
 
-    def store_tocsv(self, results):
-        df = pd.DataFrame(results, columns=["positive", "negative"])
-        df.to_csv("sentiment.csv")
-
 
 if __name__ == '__main__':
     data = pd.read_csv("../dataset/balancedtest_bis.csv")
     s_extractor = SentimentExtractor()
     results = s_extractor.extract(data)
-    s_extractor.store_tocsv(results)
+
+    saveMatrixAsCSV(results, columnNames=["positive", "negative"], filename='sentiment_features.csv')

@@ -54,5 +54,6 @@ if __name__ == '__main__':
     data_article = pd.read_csv("../dataset/balancedtest_bis.csv")
     s = SentimentExtractor(data)
     results = s.words_classifier(data_article)
-    df = pd.DataFrame(results, columns=["positive", "negative", "neutral"])
-    df.to_csv("sentiment_result.csv")
+
+    from utils import saveMatrixAsCSV
+    saveMatrixAsCSV(results, columnNames=["positive", "negative", "neutral"], filename="sentiment_result_features.csv")

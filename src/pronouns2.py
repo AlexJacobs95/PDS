@@ -73,14 +73,11 @@ if __name__ == '__main__':
     extract_time = time.time() - start
     print("extract time: %0.3fs" % extract_time)
 
-    df = pd.DataFrame(r1, columns=["i", "you", "she", "he", "it", "we", "they"])
-    df.to_csv("personal_pronouns_feature.csv")
+    from utils import saveMatrixAsCSV
 
-    df = pd.DataFrame(r2, columns=["mine", "yours", "his", "hers", "ours", "theirs"])
-    df.to_csv("possessive_pronouns_feature.csv")
-
-    df = pd.DataFrame(r3, columns=["what", "who", "whom"])
-    df.to_csv("wh_personal_pronouns_feature.csv")
-
-    df = pd.DataFrame(r4, columns=["whose", "whosever"])
-    df.to_csv("wh_possessive_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r1, columnNames=["i", "you", "she", "he", "it", "we", "they"],
+                    filename="personal_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r2, columnNames=["mine", "yours", "his", "hers", "ours", "theirs"],
+                    filename="possessive_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r3, columnNames=["what", "who", "whom"], filename="wh_personal_pronouns_feature.csv")
+    saveMatrixAsCSV(matrix=r4, columnNames=["whose", "whosever"], filename="wh_possessive_pronouns_feature.csv")

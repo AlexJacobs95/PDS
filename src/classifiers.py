@@ -1,10 +1,12 @@
 from TfidfExtractor import *
 import pandas as pd
 import time
+import itertools
 import numpy as np
 from time import time
+import matplotlib.pyplot as plt
 
-from sklearn import metrics
+from sklearn import metrics, svm
 from sklearn.neighbors import NearestCentroid
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import RidgeClassifier, SGDClassifier, Perceptron, PassiveAggressiveClassifier, \
@@ -37,7 +39,31 @@ def benchmark(clf, name):
     print("Stats :")
     print(metrics.classification_report(dataframe_test.code, pred))
     print()
+    print("Confusion Matrix: ")
+    cm = metrics.confusion_matrix(dataframe_test.code, pred)
+    plotConfusionMatrix(name, confusion_matrix=cm)
     return Result(name, score, train_time, test_time)
+
+
+def plotConfusionMatrix(clf_name, confusion_matrix):
+    plt.figure()
+    classes = ["FAKE", "REAL"]
+    plt.imshow(confusion_matrix, interpolation='nearest', cmap=plt.cm.Blues)
+    plt.title("Confusion Matrix : " + clf_name)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    thresh = confusion_matrix.max() / 2.
+    for i, j in itertools.product(range(confusion_matrix.shape[0]), range(confusion_matrix.shape[1])):
+        plt.text(j, i, confusion_matrix[i, j],
+                 horizontalalignment="center",
+                 color="white" if confusion_matrix[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
 
 
 dataframe_train = pd.read_csv("../dataset/train_bis.csv")
@@ -54,6 +80,7 @@ for clf, name in (
         (Perceptron(max_iter=50), "Perceptron"),
         (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
         # (KNeighborsClassifier(n_neighbors=10), "kNN"),
+        # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
         (MultinomialNB(), 'Naive Bayes'),
         (LogisticRegression(), 'Logistic regression'),
         (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
@@ -81,3 +108,4 @@ new_index = [i for i in range(1, len(ranking.index) + 1)]
 ranking.index = new_index
 print("RANKING :")
 print(ranking)
+plt.show()

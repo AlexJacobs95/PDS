@@ -21,6 +21,23 @@ class Result:
         self.testing_time = testing_time
 
 
+def showRanking(results):
+    clf_names = [res.clf for res in results]
+    score = [res.score for res in results]
+    training_time = [res.training_time for res in results]
+    test_time = [res.testing_time for res in results]
+
+    results.sort(key=lambda x: x.score, reverse=True)
+    d = {"clf": clf_names, "scores": score, "training time": training_time, "testing time": test_time}
+
+    ranking = pd.DataFrame(data=d)
+    ranking = ranking.sort_values(by="scores", ascending=False)
+    new_index = [i for i in range(1, len(ranking.index) + 1)]
+    ranking.index = new_index
+    print("RANKING :")
+    print(ranking)
+
+
 def benchmark(clf, name):
     print('_' * 80)
     print("Training: ")
@@ -39,9 +56,10 @@ def benchmark(clf, name):
     print("Stats :")
     print(metrics.classification_report(dataframe_test.code, pred))
     print()
-    print("Confusion Matrix: ")
+
     cm = metrics.confusion_matrix(dataframe_test.code, pred)
     plotConfusionMatrix(name, confusion_matrix=cm)
+
     return Result(name, score, train_time, test_time)
 
 
@@ -66,46 +84,31 @@ def plotConfusionMatrix(clf_name, confusion_matrix):
     plt.xlabel('Predicted label')
 
 
-dataframe_train = pd.read_csv("../dataset/train_bis.csv")
-dataframe_test = pd.read_csv("../dataset/test_OK.csv")
+if __name__ == '__main__':
 
-extractor = TfidfExtractor(ngram=1)
+    dataframe_train = pd.read_csv("../dataset/train_bis.csv")
+    dataframe_test = pd.read_csv("../dataset/test_OK.csv")
 
-train_features = extractor.extract_train(dataframe_train)
-test_features = extractor.extract_test(dataframe_test)
+    extractor = TfidfExtractor(ngram=1)
 
-results = []
-for clf, name in (
-        (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
-        (Perceptron(max_iter=50), "Perceptron"),
-        (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
-        # (KNeighborsClassifier(n_neighbors=10), "kNN"),
-        # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
-        (MultinomialNB(), 'Naive Bayes'),
-        (LogisticRegression(), 'Logistic regression'),
-        (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
-        (NearestCentroid(), 'Nearest centroid')
-):
-    print('=' * 80)
-    print(name)
-    results.append(benchmark(clf, name))
+    train_features = extractor.extract_train(dataframe_train)
+    test_features = extractor.extract_test(dataframe_test)
 
-indices = np.arange(len(results))
+    results = []
+    for clf, name in (
+            (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
+            (Perceptron(max_iter=50), "Perceptron"),
+            (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
+            # (KNeighborsClassifier(n_neighbors=10), "kNN"),
+            # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
+            (MultinomialNB(), 'Naive Bayes'),
+            (LogisticRegression(), 'Logistic regression'),
+            (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
+            (NearestCentroid(), 'Nearest centroid')
+    ):
+        print('=' * 80)
+        print(name)
+        results.append(benchmark(clf, name))
 
-clf_names = [res.clf for res in results]
-score = [res.score for res in results]
-training_time = [res.training_time for res in results]
-test_time = [res.testing_time for res in results]
-
-# Ranking
-
-results.sort(key=lambda x: x.score, reverse=True)
-d = {"clf": clf_names, "scores": score, "training time": training_time, "testing time": test_time}
-
-ranking = pd.DataFrame(data=d)
-ranking = ranking.sort_values(by="scores", ascending=False)
-new_index = [i for i in range(1, len(ranking.index) + 1)]
-ranking.index = new_index
-print("RANKING :")
-print(ranking)
-plt.show()
+    showRanking(results)
+    plt.show()

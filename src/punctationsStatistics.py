@@ -4,12 +4,14 @@ from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 import time
 from spacy.lang.en import English as EN
+import spacy
 
 
 class PunctuationStatisticsVectorizer(CountVectorizer):
 
     def __init__(self):
         super(PunctuationStatisticsVectorizer, self).__init__()
+        self.nlp = spacy.load('en')
 
     # def prepare_article(self, article):
     #
@@ -23,12 +25,13 @@ class PunctuationStatisticsVectorizer(CountVectorizer):
     #     return article
 
     def prepare_article(self, article):
-        parser = EN()
-        tokens = parser(article)
+        tokens = self.nlp(article)
         tokens_punctuation = [token.orth_ for token in tokens if token.is_punct]
-        tokens_punctuation = "".join(tokens_punctuation)
+        token_pronouns = [token.text for token in tokens if token.tag_ in ["PRON", "PRP$", "WP", "WP$"]]
+        tokens_needed = "".join(tokens_punctuation + token_pronouns)
+        print(tokens_needed)
 
-        return tokens_punctuation
+        return tokens_needed
 
     def build_analyzer(self):
         preprocess = self.build_preprocessor()
@@ -82,7 +85,7 @@ def main():
                         default="../dataset/balancedtest.csv",
                         help='Path to csv file '"[default: %(default)s]")
     parser.add_argument('-o', "--output", action='store',
-                        default='../dataset/result_extraction_punctuation.csv',
+                        default='../dataset/features/result_extraction_punctuation.csv',
                         help='Path to csv file '"[default: %(default)s]")
     args = parser.parse_args()
     working_file = args.trainset
@@ -90,8 +93,6 @@ def main():
     data = pd.read_csv(working_file)
     extractor = PunctuationExtractor()
     features = extractor.extract_train(data)
-    print(features.getrow(0))
-    print(extractor.punctuation_statistics_vect.vocabulary_)
     create_csv_file(features, extractor.punctuation_statistics_vect.vocabulary_, output_file)
 
 

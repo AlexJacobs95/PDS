@@ -38,7 +38,7 @@ class PunctuationExtractor:
 
 
 if __name__ == '__main__':
-    dataframe_test = pd.read_csv("../dataset/test_OK.csv")
+    dataframe_test = pd.read_csv("../dataset/train_bis.csv")
     extractor = PunctuationExtractor()
     start = time.time()
     result = extractor.transform(dataframe_test.text)

@@ -1,28 +1,16 @@
 import argparse
-import string  # pour avoir liste de ponctuation
-from sklearn.feature_extraction.text import CountVectorizer
-import pandas as pd
 import time
-from spacy.lang.en import English as EN
+
+import pandas as pd
 import spacy
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 class PunctuationStatisticsVectorizer(CountVectorizer):
 
     def __init__(self):
         super(PunctuationStatisticsVectorizer, self).__init__()
-        self.nlp = spacy.load('en',disable=['parser', 'ner',"vector","tagger","entity","textcat","doc"])
-
-    # def prepare_article(self, article):
-    #
-    #     punctuation_list = list(string.punctuation)
-    #     additional_punctuation = ['``', '--', '\'\'']
-    #     punctuation_list.extend(additional_punctuation)
-    #     article = article.replace("\\r\\n"," ")
-    #     for char in  article:
-    #         if char not in punctuation_list:
-    #             article = article.replace(char,"")
-    #     return article
+        self.nlp = spacy.load('en', disable=['parser', 'ner', "vector", "tagger", "entity", "textcat"])
 
     def prepare_article(self, article):
         tokens = self.nlp(article)

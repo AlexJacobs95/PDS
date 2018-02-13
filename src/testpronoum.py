@@ -1,12 +1,11 @@
-from sklearn.feature_extraction.text import CountVectorizer
-import pandas as pd
-import time
-import spacy
-import string
 import argparse
+import time
 
-punctuations = string.punctuation
-nlp = spacy.load('en', disable=['parser', 'ner','entity',"vector","tagger"])
+import pandas as pd
+import spacy
+from sklearn.feature_extraction.text import CountVectorizer
+
+nlp = spacy.load('en', disable=['parser', 'ner', 'entity', "vector", "tagger", "textcat"])
 
 pronouns = ['whom', 'her', 'you', 'yours', 'whose', 'theirs', 'our', 'itself',
             'they', 'my', 'us', 'he', 'herself', 'himself', 'themselves',
@@ -14,10 +13,12 @@ pronouns = ['whom', 'her', 'you', 'yours', 'whose', 'theirs', 'our', 'itself',
             'yourself', 'what', 'we', 'his', 'myself', 'ourselves', 'i',
             'their', 'who', 'him', 'it']
 
+
 def spacy_tokenizer(sentence):
     tokens = nlp(sentence)
     tokens = [tok.orth_ for tok in tokens if tok.text.lower() in pronouns]
     return tokens
+
 
 class Extractor:
     def __init__(self):
@@ -43,7 +44,6 @@ class Extractor:
 
     def get_vectorizer(self):
         return self.vectorizer
-
 
 
 def csrtomatrix(data, vocabulary):
@@ -78,6 +78,7 @@ def main():
     extractor = Extractor()
     features = extractor.extract_train(data)
     create_csv_file(features, extractor.vectorizer.vocabulary_, output_file)
+
 
 if __name__ == '__main__':
     main()

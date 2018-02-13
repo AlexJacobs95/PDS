@@ -20,7 +20,7 @@ class PronounExtractor:
     """
 
     def __init__(self):
-        self.nlp = spacy.load('en')
+        self.nlp = spacy.load('en', disable=['parser', 'ner'])
         self.personal_pronoun_dict = makeDict(["i", "you", "she", "he", "it", "we", "they"])
         self.possessive_pronoun_dict = makeDict(["mine", "yours", "his", "hers", "ours", "theirs"])
         self.wh_personal_pronoun_dict = makeDict(["what", "who", "whom"])

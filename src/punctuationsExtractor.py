@@ -11,7 +11,7 @@ class PunctuationStatisticsVectorizer(CountVectorizer):
 
     def __init__(self):
         super(PunctuationStatisticsVectorizer, self).__init__()
-        self.nlp = spacy.load('en')
+        self.nlp = spacy.load('en',disable=['parser', 'ner',"vector","tagger","entity","textcat","doc"])
 
     # def prepare_article(self, article):
     #
@@ -27,8 +27,7 @@ class PunctuationStatisticsVectorizer(CountVectorizer):
     def prepare_article(self, article):
         tokens = self.nlp(article)
         tokens_punctuation = [token.orth_ for token in tokens if token.is_punct]
-        token_pronouns = [token.text for token in tokens if token.tag_ in ["PRON", "PRP$", "WP", "WP$"]]
-        tokens_needed = " ".join(tokens_punctuation + token_pronouns)
+        tokens_needed = "".join(tokens_punctuation)
 
         return tokens_needed
 

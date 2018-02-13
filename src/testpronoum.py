@@ -6,25 +6,22 @@ import string
 import argparse
 
 punctuations = string.punctuation
-nlp = spacy.load('en', disable=['parser', 'ner'])
+nlp = spacy.load('en', disable=['parser', 'ner','entity',"vector","tagger"])
 
-
-punctuations_list = [elem for elem in string.punctuation]
-prononus = ["i", "you", "she", "he", "it", "we", "they"] + ["mine", "yours", "his", "hers", "ours", "theirs"] + ["what", "who", "whom"] + ["whose", "whosever"]
-
-
-
+pronouns = ['whom', 'her', 'you', 'yours', 'whose', 'theirs', 'our', 'itself',
+            'they', 'my', 'us', 'he', 'herself', 'himself', 'themselves',
+            'she', 'whoever', 'hers', 'yourselves', 'your', 'its', 'me',
+            'yourself', 'what', 'we', 'his', 'myself', 'ourselves', 'i',
+            'their', 'who', 'him', 'it']
 
 def spacy_tokenizer(sentence):
     tokens = nlp(sentence)
-    tokens = [tok.text for tok in tokens if (tok.text in punctuations or tok.tag_ in ["PRP", "PRP$", "WP", "WP$"])]
+    tokens = [tok.orth_ for tok in tokens if tok.text.lower() in pronouns]
     return tokens
-
 
 class Extractor:
     def __init__(self):
-        self.vectorizer = CountVectorizer(vocabulary = prononus + punctuations_list, tokenizer=spacy_tokenizer)
-
+        self.vectorizer = CountVectorizer(tokenizer=spacy_tokenizer)
 
     def extract_train(self, data):
         print("Extracting...")
@@ -69,7 +66,7 @@ def create_csv_file(data, vocabulary, output_file):
 def main():
     parser = argparse.ArgumentParser(description='Punctation Statistics from csv file')
     parser.add_argument('-t', "--trainset", action='store',
-                        default="../dataset/test_OK.csv",
+                        default="../dataset/balancedtest.csv",
                         help='Path to csv file '"[default: %(default)s]")
     parser.add_argument('-o', "--output", action='store',
                         default='../dataset/features/result_extraction.csv',
@@ -80,7 +77,6 @@ def main():
     data = pd.read_csv(working_file)
     extractor = Extractor()
     features = extractor.extract_train(data)
-    print(extractor.vectorizer.vocabulary_)
     create_csv_file(features, extractor.vectorizer.vocabulary_, output_file)
 
 if __name__ == '__main__':

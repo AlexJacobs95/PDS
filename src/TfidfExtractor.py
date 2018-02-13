@@ -24,3 +24,6 @@ class TfidfExtractor:
         print("extract time: %0.3fs" % extract_time)
 
         return features
+
+    def get_vectorizer(self):
+        return self.vectorizer

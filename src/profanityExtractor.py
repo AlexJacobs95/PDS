@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import time
+import numpy as np
 
 from tqdm import tqdm
 
@@ -33,7 +34,7 @@ class ProfanityExtractor:
         extract_time = time.time() - t0
         print("extract time: %0.3fs" % extract_time)
 
-        return result
+        return np.transpose(np.matrix(result))
 
 
 if __name__ == '__main__':
@@ -43,5 +44,5 @@ if __name__ == '__main__':
 
     from utils import saveMatrixAsCSV
 
-    saveMatrixAsCSV(matrix=res, columnNames=["relFrequencyProfanities"], filename="profanities_features.csv")
+    #saveMatrixAsCSV(matrix=res, columnNames=["relFrequencyProfanities"], filename="profanities_features.csv")
     print(res)

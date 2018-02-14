@@ -8,4 +8,5 @@ def Readability_score(csv):
 		lst_sc.append(textstat.flesch_reading_ease(i))
 	return lst_sc
 
-print(Readability_score("test_OK.csv"))
+if __name__ == '__main__':
+	print(Readability_score("test_OK.csv"))

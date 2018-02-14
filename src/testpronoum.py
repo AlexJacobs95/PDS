@@ -66,7 +66,7 @@ def create_csv_file(data, vocabulary, output_file):
 def main():
     parser = argparse.ArgumentParser(description='Punctation Statistics from csv file')
     parser.add_argument('-t', "--trainset", action='store',
-                        default="../dataset/balancedtest.csv",
+                        default="../dataset/test_OK.csv",
                         help='Path to csv file '"[default: %(default)s]")
     parser.add_argument('-o', "--output", action='store',
                         default='../dataset/features/result_extraction.csv',

@@ -29,21 +29,13 @@ class PunctuationExtractor:
         self.punctuation_statistics_vect = PunctuationStatisticsVectorizer()
 
     def extract_train(self, data):
-        print("Extracting Punctuation...")
-        t0 = time.time()
         features = self.punctuation_statistics_vect.fit_transform(
             data.text)  # data.text c'est le contenu de la colone text donc c'est tous les articles
-        extract_time = time.time() - t0
-        print("extract time: %0.3fs" % extract_time)
 
         return features
 
     def extract_test(self, data):
-        print("Extracting Punctuation...")
-        t0 = time.time()
         features = self.punctuation_statistics_vect.transform(data.text)
-        extract_time = time.time() - t0
-        print("extract time: %0.3fs" % extract_time)
 
         return features
 

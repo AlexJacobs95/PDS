@@ -94,6 +94,7 @@ if __name__ == '__main__':
     train_features = extractor.extract_train(dataframe_train)
     test_features = extractor.extract_test(dataframe_test)
 
+
     results = []
     for clf, name in (
             (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
@@ -109,6 +110,7 @@ if __name__ == '__main__':
         print('=' * 80)
         print(name)
         results.append(benchmark(clf, name))
-
+    print(type(train_features))
+    print(type(test_features))
     showRanking(results)
-    plt.show()
+    # plt.show()

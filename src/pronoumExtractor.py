@@ -20,26 +20,16 @@ def spacy_tokenizer(sentence):
     return tokens
 
 
-class Extractor:
+class PronounsExtractor:
     def __init__(self):
         self.vectorizer = CountVectorizer(tokenizer=spacy_tokenizer)
 
     def extract_train(self, data):
-        print("Extracting...")
-        t0 = time.time()
         features = self.vectorizer.fit_transform(data.text)
-        extract_time = time.time() - t0
-        print("extract time: %0.3fs" % extract_time)
-
         return features
 
     def extract_test(self, data):
-        print("Extracting..")
-        t0 = time.time()
         features = self.vectorizer.transform(data.text)
-        extract_time = time.time() - t0
-        print("extract time: %0.3fs" % extract_time)
-
         return features
 
     def get_vectorizer(self):
@@ -75,7 +65,7 @@ def main():
     working_file = args.trainset
     output_file = args.output
     data = pd.read_csv(working_file)
-    extractor = Extractor()
+    extractor = PronounsExtractor()
     features = extractor.extract_train(data)
     create_csv_file(features, extractor.vectorizer.vocabulary_, output_file)
 

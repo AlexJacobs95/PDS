@@ -1,11 +1,10 @@
-from TfidfExtractor import *
 import pandas as pd
 import time
 import itertools
 import numpy as np
 from time import time
 import matplotlib.pyplot as plt
-
+from scipy import sparse
 from sklearn import metrics, svm
 from sklearn.neighbors import NearestCentroid
 from sklearn.naive_bayes import MultinomialNB
@@ -86,13 +85,33 @@ def plotConfusionMatrix(clf_name, confusion_matrix):
 
 if __name__ == '__main__':
 
-    dataframe_train = pd.read_csv("../dataset/train_bis.csv")
-    dataframe_test = pd.read_csv("../dataset/test_OK.csv")
+    dataframe_train = pd.read_csv("../dataset/train_80.csv")
+    dataframe_test = pd.read_csv("../dataset/test_20.csv")
 
-    extractor = TfidfExtractor(ngram=1)
 
-    train_features = extractor.extract_train(dataframe_train)
-    test_features = extractor.extract_test(dataframe_test)
+    tfidf_train = sparse.load_npz('../features/tfidf_train_features.npz')
+    tfidf_test = sparse.load_npz('../features/tfidf_test_features.npz')
+
+    punctuation_train = sparse.load_npz('../features/punctuations_train_features.npz')
+    punctuation_test = sparse.load_npz('../features/punctuations_test_features.npz')
+
+    pronouns_train = sparse.load_npz('../features/pronouns_train_features.npz')
+    pronouns_test = sparse.load_npz('../features/pronouns_test_features.npz')
+
+    text_counts_train = sparse.load_npz('../features/text_count_train_features.npz')
+    text_counts_test = sparse.load_npz('../features/text_count_test_features.npz')
+
+    readability_train = sparse.load_npz('../features/readablity_train_features.npz')
+    readability_test = sparse.load_npz('../features/readablity_test_features.npz')
+
+    sentiment_train = sparse.load_npz('../features/sentiment_train_features.npz')
+    sentiment_test = sparse.load_npz('../features/sentiment_test_features.npz')
+
+    train_features = sparse.hstack([tfidf_train, sentiment_train, pronouns_train])
+    test_features = sparse.hstack([tfidf_test, sentiment_test, pronouns_test])
+
+    # train_features = sparse.load_npz('../features/tfidf_train_features.npz')
+    # test_features = sparse.load_npz('../features/tfidf_test_features.npz')
 
 
     results = []
@@ -110,7 +129,5 @@ if __name__ == '__main__':
         print('=' * 80)
         print(name)
         results.append(benchmark(clf, name))
-    print(type(train_features))
-    print(type(test_features))
     showRanking(results)
     # plt.show()

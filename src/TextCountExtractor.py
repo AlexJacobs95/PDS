@@ -16,17 +16,18 @@ class TextCountExtractor:
         return [numChars, numWords]
 
     def transform(self, data):
+        data = data.text
         results = [self.getArticleInfo(article) for article in data]
         return np.vstack(results)
 
 
 if __name__ == '__main__':
     # dataframe_train = pd.read_csv("../dataset/train_bis.csv")
-    dataframe_test = pd.read_csv("../dataset/test_OK.csv")
+    dataframe_test = pd.read_csv("../dataset/train_80.csv")
 
     extractor = TextCountExtractor()
-    results = extractor.transform(dataframe_test.text)
+    results = extractor.transform(dataframe_test)
 
-    from utils import saveMatrixAsCSV
-    saveMatrixAsCSV(results, columnNames=["numChars", "numWords"], filename="text_count_features.csv")
+    # from utils import saveMatrixAsCSV
+    # saveMatrixAsCSV(results, columnNames=["numChars", "numWords"], filename="text_count_features.csv")
     print(results)

@@ -4,6 +4,11 @@ import itertools
 import numpy as np
 from time import time
 import matplotlib.pyplot as plt
+
+from sklearn import metrics
+from sklearn.ensemble import BaggingClassifier
+from sklearn.svm import SVC
+from sklearn.multiclass import OneVsRestClassifier
 from scipy import sparse
 from sklearn import metrics, svm
 from sklearn.neighbors import NearestCentroid
@@ -120,7 +125,11 @@ if __name__ == '__main__':
             (Perceptron(max_iter=50), "Perceptron"),
             (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
             # (KNeighborsClassifier(n_neighbors=10), "kNN"),
-            # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
+            # (SVC(kernel='linear'), 'SVM'),
+            # (OneVsRestClassifier(SVC(kernel='linear', max_iter=2000)), "OneVsRest"),
+            # (OneVsRestClassifier(BaggingClassifier(SVC(kernel='linear'), max_samples=1.0 / 10, n_estimators=10),
+            #                      n_jobs=-1),
+            #  'SVM'),
             (MultinomialNB(), 'Naive Bayes'),
             (LogisticRegression(), 'Logistic regression'),
             (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),

@@ -6,6 +6,7 @@ spacy
 textblob
 keras
 tqdm
+flask
 
 # Install Tensorflow with CPU support (no GPU support)
 tensorflow

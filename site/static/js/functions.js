@@ -5,9 +5,6 @@ var modal_f = document.getElementById('myModal_false');
 var btn_t = document.getElementById("but_true");
 var btn_f = document.getElementById("but_false");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function() {
@@ -21,14 +18,6 @@ btn_f.onclick = function() {
 
 }
 
-// When the user clicks on <span> (x), close the modal
-
-span.onclick = function() {
-    console.log("span");
-    modal_t.style.display = "none";
-    modal_f.style.display = "none";
-
-}
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {

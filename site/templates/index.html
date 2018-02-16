@@ -2,21 +2,25 @@
 <html lang="fr-BE">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
-  <title>FND - Fake News Dectector</title>
-  <link href="../static/styles/css/bootstrap.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>FND - Fake News Dectector</title>
+    <link href="../static/styles/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/styles/css/index.css" rel="stylesheet">
+
 </head>
 
 <body>
-  <center>
-    <h1>
-      Bienvenue sur notre Détecteur <br>de Fausse Nouvelles
-    </h1>
-    <h4>
-      <br>
-      <button type="button" onclick="window.location.href='{{ url_for( 'game' ) }}';" class="btn btn-primary btn-lg" style="padding: 32px 60px;">Jouer</button>
-    </h4>
-
+    <div class="center">
+        <h1>
+            Bienvenue sur notre Détecteur <br>de Fausse Nouvelles
+        </h1>
+        <h4>
+            <br>
+            <button type="button" onclick="window.location.href='{{ url_for( 'game' ) }}';" class="btn btn-primary btn-lg"
+                    style="padding: 32px 60px;">Jouer
+            </button>
+        </h4>
+    </div>
 </body>
 </html>

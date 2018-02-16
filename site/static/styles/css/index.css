@@ -1,4 +1,10 @@
-section
-{
-border: 1px solid black;
+body {
+    background-color: #fcfcfc;
+}
+
+ .center{
+    position: relative;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
 }

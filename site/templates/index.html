@@ -10,17 +10,19 @@
 
 </head>
 
-<body>
-    <div class="center">
+<div class="jumbotron d-flex align-items-center" style="height: 100vh; background-color: #fcfcfc" >
+    <div class="container text-center">
         <h1>
-            Bienvenue sur notre Détecteur <br>de Fausse Nouvelles
+            Bienvenue sur notre Détecteur <br>de Fake News !
         </h1>
         <h4>
             <br>
-            <button type="button" onclick="window.location.href='{{ url_for( 'game' ) }}';" class="btn btn-primary btn-lg"
+            <button type="button" onclick="window.location.href='{{ url_for( 'game' ) }}';"
+                    class="btn btn-primary btn-lg"
                     style="padding: 32px 60px;">Jouer
             </button>
         </h4>
+        </div>
+
     </div>
-</body>
 </html>

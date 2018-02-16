@@ -2,98 +2,111 @@
 <html lang="fr-BE">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
-  <title>FND - Fake News Dectector</title>
-  <link href="../static/styles/css/game.css" rel="stylesheet">
-  <link href="../static/styles/css/bootstrap.css" rel="stylesheet">
-  <link href="../static/styles/css/bootstrap-grid.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>FND - Fake News Dectector</title>
+    <link href="../static/styles/css/game.css" rel="stylesheet">
+    <link href="../static/styles/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/styles/css/bootstrap-grid.css" rel="stylesheet">
 
 </head>
 
-<nav class="navbar navbar-light bg-faded">
-  <a class="navbar-brand" href="#">
-    <img src="../static/assets/logo.jpeg" width="30" height="30" class="d-inline-block align-top" alt="" onclick="window.location.href='{{ url_for( 'index' ) }}';">
-    Printemps des sciences 2018
-  </a>
-</nav>
+{% include 'navbar.html' %}
 
 <body>
-  <div class="container">
+<div class="container">
 
     <div class="row justify-content-center">
-      <div class="col-4">
-          <h2 class="text-center">Le jeu de la vérité</h2>
-      </div>
+        <div class="col-4">
+            <h2 class="text-center">Le jeu de la vérité</h2>
+        </div>
     </div>
 
     <div class="row">
-      <div class="col">
-          <h4 class="text-center">
-            Joueur :
-          </h4>
-      </div>
-      <div class="col-6 text-center">
-        Article
-      </div>
-      <div class="col">
-          <h4 class="text-center">
-            IA :
-          </h4>
-      </div>
-      <div class="w-100">
-      </div>
+        <div class="col">
+            <h4 class="text-center">
+                Joueur :
+            </h4>
+        </div>
+        <div class="col-6 text-center">
+            Article
+        </div>
+        <div class="col">
+            <h4 class="text-center">
+                IA :
+            </h4>
+        </div>
+        <div class="w-100">
+        </div>
 
-      <div class="col">
-          <p class="text-center">5</p>
-      </div>
-      <div class="col-6">
-        <section>
-          <p class="text-center"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id varius libero. Nulla finibus lobortis sem. Quisque pellentesque mi at mauris consequat, ut bibendum urna malesuada. Fusce quis tempus dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum laoreet luctus sapien a pretium. Sed iaculis risus eget pretium feugiat. Proin eu libero at ante sagittis ornare. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas finibus, nulla vel porttitor ultricies, erat eros aliquet magna, vel pellentesque nibh nisl id dui. Sed tempor condimentum tellus, at aliquam ipsum suscipit vitae. Proin consequat ligula sed ex euismod, ornare bibendum nunc ultrices. Curabitur ante nisl, gravida at semper in, vestibulum vel mi. Cras ullamcorper nisl eros, vel eleifend mi semper sit amet. Donec venenatis a est mollis lacinia. Pellentesque sit amet posuere ligula.
+        <div class="col">
+            <p class="text-center">5</p>
+        </div>
+        <div class="col-6">
+            <section>
+                <p class="text-center"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id varius
+                    libero. Nulla finibus lobortis sem. Quisque pellentesque mi at mauris consequat, ut bibendum urna
+                    malesuada. Fusce quis tempus dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Vestibulum laoreet luctus sapien a pretium. Sed iaculis risus eget pretium feugiat. Proin eu libero
+                    at ante sagittis ornare. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                    inceptos himenaeos. Maecenas finibus, nulla vel porttitor ultricies, erat eros aliquet magna, vel
+                    pellentesque nibh nisl id dui. Sed tempor condimentum tellus, at aliquam ipsum suscipit vitae. Proin
+                    consequat ligula sed ex euismod, ornare bibendum nunc ultrices. Curabitur ante nisl, gravida at
+                    semper in, vestibulum vel mi. Cras ullamcorper nisl eros, vel eleifend mi semper sit amet. Donec
+                    venenatis a est mollis lacinia. Pellentesque sit amet posuere ligula.
 
-Proin ultrices laoreet mi, tempor luctus lectus feugiat ac. Fusce ac lacus accumsan, semper mi non, pharetra lectus. Nullam ac lacus rhoncus, tristique mi non, euismod purus. Mauris auctor ultricies nibh eu tincidunt. Vestibulum dapibus erat ut velit porttitor, ut posuere neque posuere. Mauris rutrum ultricies fermentum. Praesent pretium rutrum orci, sit amet vestibulum nunc porttitor eu. Donec sed lacinia lectus. Praesent ante purus, lacinia eu leo ut, pellentesque pretium ex. Integer tristique erat nec mi luctus pretium. Phasellus nec tincidunt lacus. Praesent tincidunt luctus ligula, nec rutrum tellus dapibus vel. Vestibulum enim velit, aliquam ac convallis sed, varius non erat. Nullam volutpat nisi at ligula semper iaculis. Donec quam purus, tincidunt a porttitor eu, posuere in tellus.
+                    Proin ultrices laoreet mi, tempor luctus lectus feugiat ac. Fusce ac lacus accumsan, semper mi non,
+                    pharetra lectus. Nullam ac lacus rhoncus, tristique mi non, euismod purus. Mauris auctor ultricies
+                    nibh eu tincidunt. Vestibulum dapibus erat ut velit porttitor, ut posuere neque posuere. Mauris
+                    rutrum ultricies fermentum. Praesent pretium rutrum orci, sit amet vestibulum nunc porttitor eu.
+                    Donec sed lacinia lectus. Praesent ante purus, lacinia eu leo ut, pellentesque pretium ex. Integer
+                    tristique erat nec mi luctus pretium. Phasellus nec tincidunt lacus. Praesent tincidunt luctus
+                    ligula, nec rutrum tellus dapibus vel. Vestibulum enim velit, aliquam ac convallis sed, varius non
+                    erat. Nullam volutpat nisi at ligula semper iaculis. Donec quam purus, tincidunt a porttitor eu,
+                    posuere in tellus.
+                </p>
+            </section>
+
+
+        </div>
+        <div class="col">
+            <p class="text-center">
+                3
             </p>
-        </section>
 
-
-      </div>
-      <div class="col">
-        <p class="text-center">
-          3
-        </p>
-
-      </div>
+        </div>
     </div>
 
     <div class="row justify-content-center">
-      <div class="col-4">
-        <p class="text-center">
-          <br>
-          <button id="but_true" type="button" class="btn btn-success">Vrai</button>  <button id="but_false" type="button" class="btn btn-danger">Faux</button>
-        </p>
-      </div>
-
-
-      <div id="myModal_true" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>true</p>
+        <div class="col-4">
+            <p class="text-center">
+                <br>
+                <button id="but_true" type="button" class="btn btn-success">Vrai</button>
+                <button id="but_false" type="button" class="btn btn-danger">Faux</button>
+            </p>
         </div>
 
-      </div>
 
-      <div id="myModal_false" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>false</p>
+        <div id="myModal_true" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>true</p>
+            </div>
+
         </div>
 
-      </div>
+        <div id="myModal_false" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>false</p>
+            </div>
+
+        </div>
 
     </div>
-  </div>
+</div>
 
 <script src="../static/js/functions.js"></script>
 </body>

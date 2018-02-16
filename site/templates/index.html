@@ -1,6 +1,52 @@
 <!DOCTYPE html>
 <html lang="fr-BE">
-  <h1>
-  FAKE NEWS DETECTOR
-  </h1>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>FND - Fake News Dectector</title>
+  <link href="./css/index.css" rel="stylesheet">
+</head>
+
+<body>
+  <center>
+    <h1>
+      Bienvenue sur notre Détecteur <br>de Fausse Nouvelles
+    </h1>
+    <h4>
+      Comment Utiliser le site: <button id="myBtn">click ici</button>
+    </h4>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>How to use</h2>
+        </div>
+        <div class="modal-body">
+          <p><br>
+      		1) Choisir un article<br>
+      		2) Lire l'article qui s'affiche<br>
+      		3) Pour finir, choisir si l'article est réel ou faux</p>
+        </div>
+        <div class="modal-footer">
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+    <h4>
+      Choisir un article: <br>
+      <select id="articles" onchange="makeSomeWorks()">
+        <option selected="selected">Choix Article</option>
+        <option value="A1">Article 1</option>
+        <option value="A2">Article 2</option>
+        <option value="A3">Article 3</option>
+      </select>
+    </h4>
+
+<script src="./js/functions.js"></script>
+</body>
 </html>

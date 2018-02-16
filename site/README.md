@@ -1,4 +1,3 @@
-Run flask :
+Run le server :
 1) Etre dans le dossier PDS/site
-2) $ export FLASK_APP=app.py
-3) $ flask run
+2) $ python3 run.py

@@ -10,6 +10,8 @@
 
 </head>
 
+{% include 'navbar.html' %}
+
 <div class="jumbotron d-flex align-items-center" style="height: 100vh; background-color: #fcfcfc" >
     <div class="container text-center">
         <h1>
@@ -19,9 +21,11 @@
             <br>
             <button type="button" onclick="window.location.href='{{ url_for( 'game' ) }}';"
                     class="btn btn-primary btn-lg"
-                    style="padding: 32px 60px;">Jouer
+                    style="padding: 32px 60px; background-color: #78508D; border-color: #78508D" >Jouer
             </button>
         </h4>
         </div>
     </div>
+
+
 </html>

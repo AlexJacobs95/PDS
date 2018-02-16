@@ -6,26 +6,28 @@ var btn_t = document.getElementById("but_true");
 var btn_f = document.getElementById("but_false");
 
 // Get the <span> element that closes the modal
-var span_t = document.getElementsByClassName("close")[0];
-var span_f = document.getElementsByClassName("close")[0];
+var span = document.getElementsByClassName("close")[0];
+
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function() {
     modal_t.style.display = "block";
+    setTimeout(function() {modal_t.style.display = "none";},3000);
 }
 
 btn_f.onclick = function() {
     modal_f.style.display = "block";
+    setTimeout(function() {modal_f.style.display = "none";},3000);
+
 }
 
 // When the user clicks on <span> (x), close the modal
-span_t.onclick = function() {
-    console.log("ici");
-    modal_t.style.display = "none";
-}
 
-span_f.onclick = function() {
+span.onclick = function() {
+    console.log("span");
+    modal_t.style.display = "none";
     modal_f.style.display = "none";
+
 }
 
 // When the user clicks anywhere outside of the modal, close it
@@ -41,3 +43,4 @@ window.onclick = function(event) {
 function SendArticle(){
   // SENDS HERE THE CHOOSE
 }
+

@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 from scipy import sparse
 
-def return_all_features() : 
-	
-	tfidf_train = sparse.load_npz('../features/tfidf_train_features.npz')
+
+def return_all_features():
+    tfidf_train = sparse.load_npz('../features/tfidf_train_features.npz')
     tfidf_test = sparse.load_npz('../features/tfidf_test_features.npz')
 
     punctuation_train = sparse.load_npz('../features/punctuations_train_features.npz')
@@ -25,7 +25,8 @@ def return_all_features() :
     train_features = sparse.hstack([tfidf_train, sentiment_train, pronouns_train])
     test_features = sparse.hstack([tfidf_test, sentiment_test, pronouns_test])
 
-	return train_features, test_features 
+    return train_features, test_features
 
-if __name__ == '__main__': 
-	return_all_features()
+
+if __name__ == '__main__':
+    return_all_features()

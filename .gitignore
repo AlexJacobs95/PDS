@@ -5,5 +5,5 @@ CLASSIFIEROFDOOM/fakenewsfiles/
 dataset/
 .idea/
 .vscode/
-site/database/
+site/database/articles
 venv/

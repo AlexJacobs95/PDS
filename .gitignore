@@ -6,3 +6,4 @@ dataset/
 .idea/
 .vscode/
 site/database/
+venv/

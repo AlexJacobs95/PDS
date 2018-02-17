@@ -28,16 +28,11 @@ class NeuralNetwork:
         # https://www.kaggle.com/jacklinggu/tfidf-to-keras-dense-neural-network
         if model is None:
             self.model = Sequential()
-            self.model.add(Dense(64, 
-                input_dim=inputSize,
-                kernel_regularizer=regularizers.l2(0.1)
-            ))
-            self.model.add(Dropout(0.2))
+            self.model.add(Dense(500, input_dim=inputSize))
             self.model.add(Activation('relu'))
-            self.model.add(Dense(64, kernel_regularizer=regularizers.l2(0.1)))
-            self.model.add(Dropout(0.2))
+            self.model.add(Dense(100))
             self.model.add(Activation('relu'))
-            self.model.add(Dense(1, kernel_regularizer=regularizers.l2(0.1)))
+            self.model.add(Dense(1))
             self.model.add(Activation('sigmoid'))
             self.model.compile(loss='binary_crossentropy',
                         optimizer='adam',
@@ -47,8 +42,9 @@ class NeuralNetwork:
         print(self.model.summary())
 
     def fit(self, articlesTrain, labelsTrain):
-        tbCallBack = keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True, write_images=False)
-        self.model.fit(articlesTrain, labelsTrain, callbacks=[tbCallBack])
+        #tbCallBack = keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True, write_images=False)
+        #self.model.fit(articlesTrain, labelsTrain, callbacks=[tbCallBack])
+        self.model.fit(articlesTrain, labelsTrain)
         self.model.save('keras_model.h5')
 
     def predict(self, articles):
@@ -88,6 +84,8 @@ def loadDataset(useTrainDataset=True):
     for file_path in getFeatureFilePaths():
         # if 'readablity' in file_path:
         #     continue
+        if 'tfidf' in file_path and not ('tfidf_500' in file_path):
+            continue
 
         if 'test' in file_path and useTrainDataset:
             continue
@@ -119,14 +117,17 @@ if __name__ == '__main__':
     print("Loading testing dataset")
     testNews, testLabels = loadDataset(useTrainDataset=False)
     print("Standardizing testing data")
-    testNews = preprocessing.maxabs_scale(testNews)
+    testNews = scaler.transform(testNews)
+    print("Real: ", len([x for x in testLabels if x]))
+    print("Fake: ", len([x for x in testLabels if not x]))
     
     print("Building neural network")
     fromfile = False
     if fromfile is False:
+        print(trainNews.shape)
         neuralNetwork = NeuralNetwork(inputSize=trainNews.shape[1], numLabels=1) 
         print("Training neural network")
-        neuralNetwork.fit(trainNews, trainLabels.as_matrix())
+        neuralNetwork.fit(trainNews, trainLabels)
     else:
         neuralNetwork = NeuralNetwork(inputSize=None, numLabels=None, model=load_model('keras_model.h5'))
 

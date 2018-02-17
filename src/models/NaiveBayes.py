@@ -65,8 +65,8 @@ class NaiveBayes :
 
 if __name__ == '__main__':
 
-	dataframe_train = pd.read_csv("/home/prateeba/Desktop/BA3/Pds/Datasets/train_80.csv")
-	dataframe_test = pd.read_csv("/home/prateeba/Desktop/BA3/Pds/Datasets/test_20.csv")
+	dataframe_train = pd.read_csv("../dataset/train_80.csv")
+    dataframe_test = pd.read_csv("../dataset/test_20.csv")
 
 	train_features, test_features = return_all_features()
 	

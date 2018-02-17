@@ -13,50 +13,72 @@ TEST = pd.read_csv("../dataset/test_20.csv")
 SENTIMENT_DATA = pd.read_csv("../resources/emotion.csv")
 
 
-def extractFeature(feature_name, dataset):
-    print("Extracting " + feature_name + " from train")
+def extractFeatureWithVectorizer(extractor, feature_name, dataset, train=False):
+    print("Extracting " + feature_name)
+    start = time.time()
+
+    if train:
+        features = extractor.extract_train(dataset)
+
+    else:
+        features = extractor.extract_test(dataset)
+
+    if train:
+        path = '../features/' + feature_name + '_train_features.npz'
+    else:
+        path = '../features/' + feature_name + '_test_features.npz'
+
+    sparse.save_npz(path, features)
+
+    extract_time = time.time() - start
+    print("extract time: %0.3fs" % extract_time)
+
+
+def extractFeature(feature_name, dataset, train=False):
+    print("Extracting " + feature_name)
     start = time.time()
 
     if feature_name == "text_count":
         features = sparse.csr_matrix(TextCountExtractor().transform(dataset))
 
     elif feature_name == "readability":
-        features = sparse.csr_matrix(readability_score(train))
+        features = sparse.csr_matrix(readability_score(dataset))
 
     elif feature_name == "sentiment":
-        features = sparse.csr_matrix(SentimentExtractor(sentiment_data).words_classifier(train))
-
-    elif feature_name in ["tfidf", "prounouns", "punctuation"]:
-        if feature_name == "tfidf":
-            extractor = TfidfExtractor(ngram=1)
-
-        elif feature_name == "pronouns":
-            extractor = PronounsExtractor()
-
-        else:
-            extractor = PunctuationExtractor()
-
-        if dataset == TRAIN:
-            features = extractor.extract_train(dataset)
-
-        else:
-            features = extractor.extract_test(dataset)
+        features = sparse.csr_matrix(SentimentExtractor(SENTIMENT_DATA).words_classifier(dataset))
 
     else:
         print("Wrong feature name.")
         return
 
-    sparse.save_npz('../features/' + feature_name + '_' + dataset.lower() + '_features.npz', features)
+    if train:
+        path = '../features/' + feature_name + '_train_features.npz'
+    else:
+        path = '../features/' + feature_name + '_test_features.npz'
+
+    sparse.save_npz(path, features)
 
     extract_time = time.time() - start
     print("extract time: %0.3fs" % extract_time)
 
 
 if __name__ == '__main__':
-    for feature_name in ['tfidf', 'prounouns', 'punctuation', 'text_count', 'readability', 'sentiment']:
-        extractFeature(feature_name, TRAIN)
+    for feature_name in ['text_count', 'readability', 'sentiment']:
+        extractFeature(feature_name, TRAIN, train=True)
         extractFeature(feature_name, TEST)
 
+    max_features = 500
+    extractor = TfidfExtractor(ngram=1, max_features=max_features)
+    extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TRAIN, train=True)
+    extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TEST)
+
+    extractor = PunctuationExtractor()
+    extractFeatureWithVectorizer(extractor, 'punctuation', TRAIN)
+    extractFeatureWithVectorizer(extractor, 'punctuation', TEST)
+
+    extractor = PronounsExtractor()
+    extractFeatureWithVectorizer(extractor, 'pronouns', TRAIN)
+    extractFeatureWithVectorizer(extractor, 'prounouns', TEST)
 
     # train = pd.read_csv("../dataset/train_80.csv")
     # test = pd.read_csv("../dataset/test_20.csv")

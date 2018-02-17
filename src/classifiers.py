@@ -3,14 +3,11 @@ import time
 import itertools
 import numpy as np
 from time import time
+import itertools
 import matplotlib.pyplot as plt
-
-from sklearn import metrics
-from sklearn.ensemble import BaggingClassifier
-from sklearn.svm import SVC
-from sklearn.multiclass import OneVsRestClassifier
 from scipy import sparse
 from sklearn import metrics, svm
+from sklearn import feature_selection
 from sklearn.neighbors import NearestCentroid
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import RidgeClassifier, SGDClassifier, Perceptron, PassiveAggressiveClassifier, \
@@ -43,26 +40,26 @@ def showRanking(results):
 
 
 def benchmark(clf, name):
-    print('_' * 80)
-    print("Training: ")
-    print(clf)
+    #print('_' * 80)
+    #print("Training: ")
+    #print(clf)
     t0 = time()
     clf.fit(train_features, dataframe_train.code)
     train_time = time() - t0
-    print("train time: %0.3fs" % train_time)
+    #print("train time: %0.3fs" % train_time)
 
     t0 = time()
     pred = clf.predict(test_features)
     test_time = time() - t0
-    print("test time:  %0.3fs" % test_time)
+    #print("test time:  %0.3fs" % test_time)
 
     score = metrics.accuracy_score(dataframe_test.code, pred)
-    print("Stats :")
-    print(metrics.classification_report(dataframe_test.code, pred))
-    print()
+    #print("Stats :")
+    #print(metrics.classification_report(dataframe_test.code, pred))
+    #print()
 
     cm = metrics.confusion_matrix(dataframe_test.code, pred)
-    plotConfusionMatrix(name, confusion_matrix=cm)
+    # plotConfusionMatrix(name, confusion_matrix=cm)
 
     return Result(name, score, train_time, test_time)
 
@@ -90,53 +87,79 @@ def plotConfusionMatrix(clf_name, confusion_matrix):
 
 if __name__ == '__main__':
 
+    all_features = []
+
     dataframe_train = pd.read_csv("../dataset/train_80.csv")
     dataframe_test = pd.read_csv("../dataset/test_20.csv")
 
-
     tfidf_train = sparse.load_npz('../features/tfidf_train_features.npz')
     tfidf_test = sparse.load_npz('../features/tfidf_test_features.npz')
+    all_features.append([tfidf_train, tfidf_test, "tfidf"])
 
     punctuation_train = sparse.load_npz('../features/punctuations_train_features.npz')
     punctuation_test = sparse.load_npz('../features/punctuations_test_features.npz')
+    all_features.append([punctuation_train, punctuation_test, "punctuation"])
 
     pronouns_train = sparse.load_npz('../features/pronouns_train_features.npz')
     pronouns_test = sparse.load_npz('../features/pronouns_test_features.npz')
+    all_features.append([pronouns_train, pronouns_test, "pronouns"])
 
     text_counts_train = sparse.load_npz('../features/text_count_train_features.npz')
     text_counts_test = sparse.load_npz('../features/text_count_test_features.npz')
+    all_features.append([text_counts_train, text_counts_test, "text_count"])
 
-    readability_train = sparse.load_npz('../features/readablity_train_features.npz')
-    readability_test = sparse.load_npz('../features/readablity_test_features.npz')
+    # readability_train = sparse.load_npz('../features/readablity_train_features.npz')
+    # readability_test = sparse.load_npz('../features/readablity_test_features.npz')
 
     sentiment_train = sparse.load_npz('../features/sentiment_train_features.npz')
     sentiment_test = sparse.load_npz('../features/sentiment_test_features.npz')
+    all_features.append([sentiment_train, sentiment_test, "sentiment"])
 
-    train_features = sparse.hstack([tfidf_train, sentiment_train, pronouns_train])
-    test_features = sparse.hstack([tfidf_test, sentiment_test, pronouns_test])
+    best_res = []
 
-    # train_features = sparse.load_npz('../features/tfidf_train_features.npz')
-    # test_features = sparse.load_npz('../features/tfidf_test_features.npz')
+    selector = feature_selection.VarianceThreshold()
+
+    for size_of_combinations in range(1, len(all_features) + 1):
+
+        features_combinations = itertools.combinations(all_features, size_of_combinations)
+
+        for combination in features_combinations:
+            print("features : ", [feature[2] for feature in combination])
+
+            train_features = sparse.hstack([feature[0] for feature in combination])
+            test_features = sparse.hstack([feature[1] for feature in combination])
 
 
-    results = []
-    for clf, name in (
-            (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
-            (Perceptron(max_iter=50), "Perceptron"),
-            (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
-            # (KNeighborsClassifier(n_neighbors=10), "kNN"),
-            # (SVC(kernel='linear'), 'SVM'),
-            # (OneVsRestClassifier(SVC(kernel='linear', max_iter=2000)), "OneVsRest"),
-            # (OneVsRestClassifier(BaggingClassifier(SVC(kernel='linear'), max_samples=1.0 / 10, n_estimators=10),
-            #                      n_jobs=-1),
-            #  'SVM'),
-            (MultinomialNB(), 'Naive Bayes'),
-            (LogisticRegression(), 'Logistic regression'),
-            (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
-            (NearestCentroid(), 'Nearest centroid')
-    ):
-        print('=' * 80)
-        print(name)
-        results.append(benchmark(clf, name))
-    showRanking(results)
-    # plt.show()
+            # train_features = sparse.load_npz('../features/tfidf_train_features.npz')
+            # test_features = sparse.load_npz('../features/tfidf_test_features.npz')
+
+
+            results = []
+            for clf, name in (
+                    (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
+                    (Perceptron(max_iter=50), "Perceptron"),
+                    (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
+                    # (KNeighborsClassifier(n_neighbors=10), "kNN"),
+                    # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
+                    (MultinomialNB(), 'Naive Bayes'),
+                    (LogisticRegression(), 'Logistic regression'),
+                    (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
+                    (NearestCentroid(), 'Nearest centroid')
+            ):
+                #print('=' * 80)
+                #print(name)
+                results.append(benchmark(clf, name))
+            # showRanking(results)
+            # plt.show()
+
+            results.sort(key=lambda x: x.score, reverse=True)
+
+            features_used = [feature[2] for feature in combination]
+
+            print("best score = " + str(results[0].score) + "using " + str(results[0].clf) )
+
+            best_res.append([results[0].score, results[0].clf, [feature for feature in features_used]])
+
+    best_res.sort(key=lambda x: x[0], reverse=True)
+    for elem in best_res:
+        print(elem)

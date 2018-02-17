@@ -24,7 +24,7 @@ def extractFeatureWithVectorizer(extractor, feature_name, dataset, train=False):
         features = extractor.extract_test(dataset)
 
     if train:
-        path = '../features/' + feature_name + '_tra!n_features.npz'
+        path = '../features/' + feature_name + '_train_features.npz'
     else:
         path = '../features/' + feature_name + '_test_features.npz'
 
@@ -52,7 +52,7 @@ def extractFeature(feature_name, dataset, train=False):
         return
 
     if train:
-        path = '../features/' + feature_name + '_tra!n_features.npz'
+        path = '../features/' + feature_name + '_train_features.npz'
     else:
         path = '../features/' + feature_name + '_test_features.npz'
 

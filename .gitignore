@@ -7,3 +7,5 @@ dataset/
 .vscode/
 site/database/
 venv/
+*.h5
+logs/

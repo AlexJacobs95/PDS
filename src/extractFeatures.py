@@ -42,10 +42,10 @@ def extractFeature(feature_name, dataset, train=False):
         features = sparse.csr_matrix(TextCountExtractor().transform(dataset))
 
     elif feature_name == "readability":
-        features = sparse.csr_matrix(readability_score(train))
+        features = sparse.csr_matrix(readability_score(dataset))
 
     elif feature_name == "sentiment":
-        features = sparse.csr_matrix(SentimentExtractor(sentiment_data).words_classifier(train))
+        features = sparse.csr_matrix(SentimentExtractor(sentiment_data).words_classifier(dataset))
 
     else:
         print("Wrong feature name.")

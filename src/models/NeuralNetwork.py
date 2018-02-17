@@ -1,22 +1,55 @@
 import os
+
+from keras.optimizers import SGD
 from sklearn.model_selection import train_test_split
-from keras.models import Sequential
-from keras.layers import Dense
+from keras.models import Sequential, load_model
+from keras.layers import Dense, Dropout, Activation
+from keras import regularizers
 import pandas as pd
 import scipy.sparse as sparse
+import keras
+
+from sklearn import preprocessing
+import numpy as np
 
 
 class NeuralNetwork:
-    def __init__(self, inputSize, numLabels):
+    def __init__(self, inputSize, numLabels, model=None):
+        """
         self.model = Sequential()
-        self.model.add(Dense(units=100, activation='relu', input_dim=inputSize))
+        self.model.add(Dense(units=500, activation='relu', input_dim=inputSize))
         self.model.add(Dense(units=numLabels, activation='softmax'))
-        self.model.compile(loss='categorial_crossentropy',
-                           optimizer='sgd',
+        sgd = SGD(lr=1e-6)
+        self.model.compile(loss='binary_crossentropy',
+                           optimizer=sgd,
                            metrics=['accuracy'])
+        """
+        # Cette architecture est inspirée de ce site
+        # https://www.kaggle.com/jacklinggu/tfidf-to-keras-dense-neural-network
+        if model is None:
+            self.model = Sequential()
+            self.model.add(Dense(64, 
+                input_dim=inputSize,
+                kernel_regularizer=regularizers.l2(0.1)
+            ))
+            self.model.add(Dropout(0.2))
+            self.model.add(Activation('relu'))
+            self.model.add(Dense(64, kernel_regularizer=regularizers.l2(0.1)))
+            self.model.add(Dropout(0.2))
+            self.model.add(Activation('relu'))
+            self.model.add(Dense(1, kernel_regularizer=regularizers.l2(0.1)))
+            self.model.add(Activation('sigmoid'))
+            self.model.compile(loss='binary_crossentropy',
+                        optimizer='adam',
+                        metrics=['acc'])
+        else:
+            self.model = model
+        print(self.model.summary())
 
     def fit(self, articlesTrain, labelsTrain):
-        self.model.fit(articlesTrain, labelsTrain, epochs=5, batch_size=32)
+        tbCallBack = keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True, write_images=False)
+        self.model.fit(articlesTrain, labelsTrain, callbacks=[tbCallBack])
+        self.model.save('keras_model.h5')
 
     def predict(self, articles):
         return self.model.predict(articles)
@@ -30,6 +63,7 @@ def getFeatureFilePaths():
     currentDir = os.path.dirname(os.path.realpath(__file__))
     featuresDir = os.path.join(currentDir, '..', '..', 'features')
     return [os.path.join(featuresDir, filename) for filename in os.listdir(featuresDir)]
+
 
 def getDatasetDir():
     currentDir = os.path.dirname(os.path.realpath(__file__))
@@ -50,29 +84,52 @@ def loadDataset(useTrainDataset=True):
         - A test set (to test the model): testNews, testLabels
     :param useTrainDataset: if True, use the training dataset, otherwise use the test dataset.
     """
-    features = None
+    features = []
     for file_path in getFeatureFilePaths():
+        # if 'readablity' in file_path:
+        #     continue
+
         if 'test' in file_path and useTrainDataset:
             continue
         elif 'train' in file_path and not useTrainDataset:
             continue
 
         feature = sparse.load_npz(file_path)
+        features.append(feature)
 
-        if features is None:
-            features = feature
-        else:
-            features = sparse.vstack(features, feature)
-
+    # We stack all the features, then convert to CSR to allow slicing row-wise,
+    # which is required to batches in the neural network
+    featureMatrix = sparse.hstack(features).tocsr()
     labels = loadLabels(useTrainDataset)
-    return features, labels
+    return featureMatrix, labels
 
+def shuffleData(inputData, labels):
+    idx = np.random.permutation(len(labels))
+    return inputData[idx], labels[idx]
 
 if __name__ == '__main__':
+    
+    print("Loading training dataset")
     trainNews, trainLabels = loadDataset(useTrainDataset=True)
+    print("Standardizing training data")
+    scaler = preprocessing.MaxAbsScaler().fit(trainNews)
+    trainNews = scaler.transform(trainNews)
+    print("Shuffling data")
+    trainNews, trainLabels = shuffleData(trainNews, trainLabels)
+    print("Loading testing dataset")
     testNews, testLabels = loadDataset(useTrainDataset=False)
-    neuralNetwork = NeuralNetwork(inputSize=trainNews.shape[1], numLabels=trainLabels.shape[1])
-    neuralNetwork.fit(trainNews, trainLabels)
+    print("Standardizing testing data")
+    testNews = preprocessing.maxabs_scale(testNews)
+    
+    print("Building neural network")
+    fromfile = False
+    if fromfile is False:
+        neuralNetwork = NeuralNetwork(inputSize=trainNews.shape[1], numLabels=1) 
+        print("Training neural network")
+        neuralNetwork.fit(trainNews, trainLabels.as_matrix())
+    else:
+        neuralNetwork = NeuralNetwork(inputSize=None, numLabels=None, model=load_model('keras_model.h5'))
 
+    print("Evaluating neural network performance on training set")
     loss_and_metrics = neuralNetwork.evaluate(testNews, testLabels)
     print(loss_and_metrics)

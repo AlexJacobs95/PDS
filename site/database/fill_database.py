@@ -5,7 +5,9 @@ import sqlite3 as lite
 
 articles = []
 labels = []
+ids = []
 
+id = 0
 for index in range(1,41):
         label = 1
         if index <=20:
@@ -16,12 +18,14 @@ for index in range(1,41):
         article = " ".join(article)
         articles.append(article)
         labels.append(label)
+        ids.append(id)
+        id += 1
 
-data = pd.DataFrame(data={'label': labels, 'content': articles})
+data = pd.DataFrame(data={'id': ids, 'label': labels, 'content': articles})
 print(data)
 
 con = lite.connect('database.db')
-data.to_sql('Articles', con=con, index=True)
+data.to_sql('Articles', con=con, index=False)
 
 
 

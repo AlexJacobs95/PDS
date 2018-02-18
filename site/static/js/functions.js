@@ -5,13 +5,16 @@ var modal_f = document.getElementById('myModal_false');
 var btn_t = document.getElementById("but_true");
 var btn_f = document.getElementById("but_false");
 
+var player_score = document.getElementById("player-score");
+var article_content = document.getElementById("article-content");
+
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
     // modal_t.style.display = "block";
     // setTimeout(function() {modal_t.style.display = "none";},3000);
     console.log("Button True clicked")
-    sendAnswer(false)
+    sendAnswer(true)
 
 
 }
@@ -37,7 +40,14 @@ function sendAnswer(answer) {
     $.post('/game', {
         value: answer
     }).done(function (resFromServer) {
-        console.log(resFromServer)
+        console.log(resFromServer);
+        var score = parseInt(player_score.innerHTML);
+        if (resFromServer['correct'] == true) {
+            player_score.innerHTML = (score + 1).toString();
+
+        }
+        article_content.innerHTML = resFromServer['newArticleContent']
+
 
     }).fail(function () {
         console.log("failed")

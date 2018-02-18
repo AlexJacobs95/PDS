@@ -1,15 +1,20 @@
 import sqlite3
 from flask import request
 from flask import g
-from flask import Flask, redirect
+from flask import Flask
 from flask import jsonify
 from flask import render_template
-from random import randint
+from flask import session
+from flask import redirect
+import random
+from googletrans import Translator
 
 app = Flask(__name__)
 
 DATABASE = 'database/database.db'
 ARTICLE_NUMBER = 40
+NUMBER_OF_ROUNDS_PER_GAME = 5
+TRANSLATOR = Translator()
 
 
 def make_dicts(cursor, row):
@@ -47,29 +52,53 @@ def index():
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     if request.method == 'GET':
-        content = getArticleContent()
-        return render_template('game.html', article_content=content)
+        initGame()
+        print(session["round"])
+        return render_template('game.html', article_content=session["current_article"]["content"])
 
     elif request.method == 'POST':
-        return jsonify({'value': 'True'})
+
+        # Return True of the answer was correct, else return False
+        player_answer = request.form['value']
+        return_val = jsonify({'correct': checkIfCorrect(session["current_article"]['label'], player_answer),
+                              'newArticleContent': session["current_article"]["content"]})
+
+        updateGame()
+        return return_val
 
 
-def getArticleContent():
-    articleID = randint(0, ARTICLE_NUMBER - 1)
-    query = "SELECT content FROM Articles WHERE id=" + str(articleID)
+def initGame():
+    session["game_articles_ids"] = genateRandomIds(NUMBER_OF_ROUNDS_PER_GAME)
+    session["round"] = 0
+    session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
+
+
+def updateGame():
+    session["round"] += 1
+    session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
+
+
+def checkIfCorrect(real_label, answer):
+    """
+    Check if the answer and the label associated to the article are the same
+    """
+    return (real_label == 1 and answer == 'true') or (real_label == 0 and answer == 'false')
+
+
+def getArticle(articleID):
+    """
+    Return the (content, label) of the article having id = articleID
+    """
+    query = "SELECT content, id, label FROM Articles WHERE id=" + str(articleID)
     info = query_db(query)
-    content = info[0]['content']
-    return content
+    content, label = info[0]['content'], info[0]['label']
+    # Uncomment to translate articles
+    # content = TRANSLATOR.translate(content, dest='fr').text
+    return {'content': content, 'label': label}
 
 
-def checkInDB(article_id, answer):
-    query = "SELECT label" \
-            "FROM Articles" \
-            "WHERE id = " + str(article_id)
-    label = query_db(query)
-
-    return label == answer
-
-
-def getAnswer(article_id):
-    raise NotImplementedError
+def genateRandomIds(x):
+    """
+    Return x articles (id, content, label)
+    """
+    return random.sample(range(0, ARTICLE_NUMBER), x)

@@ -21,7 +21,7 @@ data = pd.DataFrame(data={'label': labels, 'content': articles})
 print(data)
 
 con = lite.connect('database.db')
-data.to_sql('database.db', con=con, index=True)
+data.to_sql('Articles', con=con, index=True)
 
 
 

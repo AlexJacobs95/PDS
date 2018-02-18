@@ -92,8 +92,8 @@ if __name__ == '__main__':
     dataframe_train = pd.read_csv("../dataset/train_80.csv")
     dataframe_test = pd.read_csv("../dataset/test_20.csv")
 
-    tfidf_train = sparse.load_npz('../features/tfidf_train_features.npz')
-    tfidf_test = sparse.load_npz('../features/tfidf_test_features.npz')
+    tfidf_train = sparse.load_npz('../features/tfidf_500_train_features.npz')
+    tfidf_test = sparse.load_npz('../features/tfidf_500_test_features.npz')
     all_features.append([tfidf_train, tfidf_test, "tfidf"])
 
     punctuation_train = sparse.load_npz('../features/punctuations_train_features.npz')

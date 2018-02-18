@@ -68,10 +68,7 @@ def checkInDB(article_id, answer):
             "WHERE id = " + str(article_id)
     label = query_db(query)
 
-    if label == answer:
-        return True
-    else:
-        return False
+    return label == answer
 
 
 def getAnswer(article_id):

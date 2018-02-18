@@ -73,20 +73,30 @@
         </div>
 
 
-        <div id="myModal_true" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <p>true</p>
-            </div>
 
+    </div>
+    <div id="myModal_true" class="modal">
+        <!-- Modal content -->
+        <div class="modal-perso">
+            <p>true</p>
         </div>
 
-        <div id="myModal_false" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <p>false</p>
-            </div>
+    </div>
 
+    <div id="myModal_false" class="modal">
+        <!-- Modal content -->
+        <div class="modal-perso">
+            <p>false</p>
+        </div>
+
+    </div>
+
+    <div id="myModal_finish" class="modal">
+        <!-- Modal content -->
+        <div class="modal-perso">
+            <p id="player_score_finish" class="text-center">Voici votre score: </p>
+            <p class="text-center">Voulez vous rejouer une partie:</p>
+            <center><button id="yes_replay" onclick="window.location.href='{{ url_for( 'game' ) }}';">Oui, je veux rejouer !</button>   <button id="no_replay" onclick="window.location.href='{{ url_for( 'index' ) }}';" >Non, je ne veux pas</button></center>
         </div>
 
     </div>

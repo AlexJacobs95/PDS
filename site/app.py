@@ -61,9 +61,13 @@ def game():
         # Return True of the answer was correct, else return False
         player_answer = request.form['value']
         return_val = jsonify({'correct': checkIfCorrect(session["current_article"]['label'], player_answer),
-                              'newArticleContent': session["current_article"]["content"]})
+                              'newArticleContent': session["current_article"]["content"], 'displayPopupFinish': False})
 
-        updateGame()
+        if session["round"] <= NUMBER_OF_ROUNDS_PER_GAME-2:
+            updateGame()
+        else:
+            return_val = jsonify({'correct': checkIfCorrect(session["current_article"]['label'], player_answer),
+                                  'newArticleContent': session["current_article"]["content"], 'displayPopupFinish': True})
         return return_val
 
 
@@ -92,7 +96,7 @@ def getArticle(articleID):
     query = "SELECT content, id, label FROM Articles WHERE id=" + str(articleID)
     info = query_db(query)
     content, label = info[0]['content'], info[0]['label']
-    # Uncomment to translate articles
+    #Uncomment to translate articles
     # content = TRANSLATOR.translate(content, dest='fr').text
     return {'content': content, 'label': label}
 

@@ -1,9 +1,12 @@
 // Get the modal
 var modal_t = document.getElementById('myModal_true');
 var modal_f = document.getElementById('myModal_false');
+var modal_finish = document.getElementById('myModal_finish');
+
 // Get the button that opens the modal
 var btn_t = document.getElementById("but_true");
 var btn_f = document.getElementById("but_false");
+
 
 var player_score = document.getElementById("player-score");
 var article_content = document.getElementById("article-content");
@@ -11,8 +14,8 @@ var article_content = document.getElementById("article-content");
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
-    // modal_t.style.display = "block";
-    // setTimeout(function() {modal_t.style.display = "none";},3000);
+    //modal_t.style.display = "block";
+    //setTimeout(function() {modal_t.style.display = "none";},3000);
     console.log("Button True clicked")
     sendAnswer(true)
 
@@ -42,10 +45,18 @@ function sendAnswer(answer) {
     }).done(function (resFromServer) {
         console.log(resFromServer);
         var score = parseInt(player_score.innerHTML);
-        if (resFromServer['correct'] == true) {
+        if (resFromServer['displayPopupFinish']== true){
+            console.log("doit afficher popup de fin");
+            var paragraph = document.getElementById("player_score_finish");
+            var text = document.createTextNode((score + 1).toString());
+            paragraph.appendChild(text);
+            showPopupFinish();
+        }
+        else if (resFromServer['correct'] == true) {
             player_score.innerHTML = (score + 1).toString();
 
         }
+
         article_content.innerHTML = resFromServer['newArticleContent']
 
 
@@ -56,7 +67,8 @@ function sendAnswer(answer) {
 
 }
 
-function SendArticle() {
-    // SENDS HERE THE CHOOSE
+function showPopupFinish() {
+    modal_finish.style.display="block";
 }
+
 

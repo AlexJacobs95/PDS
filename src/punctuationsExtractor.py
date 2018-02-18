@@ -30,7 +30,7 @@ class PunctuationExtractor:
 
     def extract_train(self, data):
         features = self.punctuation_statistics_vect.fit_transform(
-            data.text)  # data.text c'est le contenu de la colone text donc c'est tous les articles
+            data.text)  # data.text c'est le contenu de la colone text donc c'est tous les database.db
 
         return features
 

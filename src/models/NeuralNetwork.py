@@ -75,7 +75,7 @@ def loadLabels(useTrainDataset=True):
 
 def loadDataset(useTrainDataset=True):
     """
-    Reads the dataset (articles and labels) from the file and returns two sets of data:
+    Reads the dataset (database.db and labels) from the file and returns two sets of data:
         - A training set (to train the model): trainNews, trainLabels
         - A test set (to test the model): testNews, testLabels
     :param useTrainDataset: if True, use the training dataset, otherwise use the test dataset.

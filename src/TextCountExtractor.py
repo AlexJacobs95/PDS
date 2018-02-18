@@ -7,7 +7,7 @@ class TextCountExtractor:
     Extracts
      - the number of words in each article
      - the number of characters in each article
-    If there are n articles, it returns a n x 2 matrix of values (n rows, 2 columns)
+    If there are n database.db, it returns a n x 2 matrix of values (n rows, 2 columns)
     """
 
     def getArticleInfo(self, article):

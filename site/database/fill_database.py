@@ -11,7 +11,7 @@ for index in range(1,41):
         if index <=20:
             label = 0
         file = "article{}".format(index)
-        f = open(file, encoding="utf8")
+        f = open('../articles/' + file, encoding="utf8")
         article = f.readlines()
         article = " ".join(article)
         articles.append(article)
@@ -20,8 +20,8 @@ for index in range(1,41):
 data = pd.DataFrame(data={'label': labels, 'content': articles})
 print(data)
 
-con = lite.connect('articles')
-data.to_sql('articles', con=con, index=True)
+con = lite.connect('database.db')
+data.to_sql('database.db', con=con, index=True)
 
 
 

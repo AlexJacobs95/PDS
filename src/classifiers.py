@@ -40,23 +40,23 @@ def showRanking(results):
 
 
 def benchmark(clf, name):
-    #print('_' * 80)
-    #print("Training: ")
-    #print(clf)
+    # print('_' * 80)
+    # print("Training: ")
+    # print(clf)
     t0 = time()
     clf.fit(train_features, dataframe_train.code)
     train_time = time() - t0
-    #print("train time: %0.3fs" % train_time)
+    # print("train time: %0.3fs" % train_time)
 
     t0 = time()
     pred = clf.predict(test_features)
     test_time = time() - t0
-    #print("test time:  %0.3fs" % test_time)
+    # print("test time:  %0.3fs" % test_time)
 
     score = metrics.accuracy_score(dataframe_test.code, pred)
-    #print("Stats :")
-    #print(metrics.classification_report(dataframe_test.code, pred))
-    #print()
+    # print("Stats :")
+    # print(metrics.classification_report(dataframe_test.code, pred))
+    # print()
 
     cm = metrics.confusion_matrix(dataframe_test.code, pred)
     # plotConfusionMatrix(name, confusion_matrix=cm)
@@ -129,10 +129,8 @@ if __name__ == '__main__':
             train_features = sparse.hstack([feature[0] for feature in combination])
             test_features = sparse.hstack([feature[1] for feature in combination])
 
-
             # train_features = sparse.load_npz('../features/tfidf_train_features.npz')
             # test_features = sparse.load_npz('../features/tfidf_test_features.npz')
-
 
             results = []
             for clf, name in (
@@ -146,8 +144,8 @@ if __name__ == '__main__':
                     (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
                     (NearestCentroid(), 'Nearest centroid')
             ):
-                #print('=' * 80)
-                #print(name)
+                # print('=' * 80)
+                # print(name)
                 results.append(benchmark(clf, name))
             # showRanking(results)
             # plt.show()
@@ -156,7 +154,7 @@ if __name__ == '__main__':
 
             features_used = [feature[2] for feature in combination]
 
-            print("best score = " + str(results[0].score) + " using " + str(results[0].clf) )
+            print("best score = " + str(results[0].score) + " using " + str(results[0].clf))
 
             best_res.append([results[0].score, results[0].clf, [feature for feature in features_used]])
 

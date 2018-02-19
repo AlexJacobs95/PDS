@@ -73,14 +73,16 @@
         </div>
 
 
-
     </div>
 
 
     <div id="myModal_answer" class="modal">
         <!-- Modal content -->
         <div class="modal-perso">
-            <center><img id="player_answer_img" src="" style="height: 25%; width: 25%"> <img id="robot_answer_img" src="" style="height: 25%; width: 25%"></center>
+            <center><img id="player_answer_img" src="" style="height: 25%; width: 25%"> <img id="robot_answer_img"
+                                                                                             src=""
+                                                                                             style="height: 25%; width: 25%">
+            </center>
         </div>
 
     </div>
@@ -91,7 +93,13 @@
             <p id="player_score_finish" class="text-center">Voici votre score: </p>
             <p id="ai_score_finish" class="text-center">Voici le score de l'IA: </p>
             <p class="text-center">Voulez vous rejouer une partie:</p>
-            <center><button id="yes_replay" onclick="window.location.href='{{ url_for( 'game' ) }}';">Oui, je veux rejouer !</button>   <button id="no_replay" onclick="window.location.href='{{ url_for( 'index' ) }}';" >Non, je ne veux pas</button></center>
+            <center>
+                <button id="yes_replay" onclick="window.location.href='{{ url_for( 'game' ) }}';">Oui, je veux rejouer
+                    !
+                </button>
+                <button id="no_replay" onclick="window.location.href='{{ url_for( 'index' ) }}';">Non, je ne veux pas
+                </button>
+            </center>
         </div>
 
     </div>

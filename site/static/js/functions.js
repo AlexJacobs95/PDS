@@ -67,7 +67,7 @@ function sendAnswer(answer) {
             var img_player_answer = document.getElementById("player_answer_img");
             img_player_answer.src = "../static/assets/bad_answer.jpeg";
         }
-        
+
         showPopupAnswer();
 
         if (resFromServer['displayPopupFinish'] === true) {
@@ -81,16 +81,16 @@ function sendAnswer(answer) {
             var aiScoreText = document.createTextNode(aiScore.toString());
             aiScoreModalEl.appendChild(aiScoreText);
 
-            setTimeout(function() { 
+            setTimeout(function () {
                 showPopupFinish();
                 article_content.innerHTML = "Fin du jeu!"
             }, 1500);
-            
+
         } else {
-            setTimeout(function() {
-                article_content.innerHTML = resFromServer['newArticleContent']
+            setTimeout(function () {
+                article_content.innerHTML = resFromServer['newArticleContent'];
                 article_counter = article_counter + 1;
-                article_counter_text.innerHTML = "Article ".concat(article_counter.toString()).concat(" sur 5");    
+                article_counter_text.innerHTML = "Article ".concat(article_counter.toString()).concat(" sur 5");
             }, popupTime)
         }
     }).fail(function () {

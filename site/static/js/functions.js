@@ -12,6 +12,8 @@ var player_score_el = document.getElementById("player-score");
 var ai_score_el = document.getElementById("AI-score");
 var article_content = document.getElementById("article-content");
 
+var article_counter_text = document.getElementById("article-counter");
+var article_counter = 1;
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
@@ -56,6 +58,7 @@ function sendAnswer(answer) {
             showPopupBadAnswer();
         }
 
+
         if (resFromServer['displayPopupFinish'] === true) {
             console.log("doit afficher popup de fin");
 
@@ -71,6 +74,8 @@ function sendAnswer(answer) {
             article_content.innerHTML = "Fin du jeu!"
         } else {
             article_content.innerHTML = resFromServer['newArticleContent']
+            article_counter = article_counter +1;
+            article_counter_text.innerHTML = "Article ".concat(article_counter.toString()).concat(" sur 5");
         }
 
 
@@ -88,12 +93,12 @@ function showPopupGoodAnswer() {
     modal_t.style.display = "block";
     setTimeout(function () {
         modal_t.style.display = "none";
-    }, 3000);
+    }, 1500);
 }
 
 function showPopupBadAnswer() {
     modal_f.style.display = "block";
     setTimeout(function () {
         modal_f.style.display = "none";
-    }, 3000);
+    }, 1500);
 }

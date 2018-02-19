@@ -44,23 +44,30 @@ function sendAnswer(answer) {
         var aiScore = parseInt(ai_score_el.innerHTML);
 
         if (resFromServer['aiCorrect'] === true) {
-            ai_score_el.innerHTML = (aiScore + 1).toString();
+            aiScore += 1;
+            ai_score_el.innerHTML = aiScore.toString();
+        }
+
+        if (resFromServer['correct'] === true) {
+            playerScore += 1;
+            player_score_el.innerHTML = playerScore.toString();
+            showPopupGoodAnswer();
+        } else {
+            showPopupBadAnswer();
         }
 
         if (resFromServer['displayPopupFinish'] === true) {
             console.log("doit afficher popup de fin");
-            var paragraph = document.getElementById("player_score_finish");
-            var text = document.createTextNode((playerScore + 1).toString());
-            paragraph.appendChild(text);
-            player_score_el.innerHTML = (playerScore + 1).toString();
-            showPopupFinish();
-        }
-        else if (resFromServer['correct'] === true) {
-            player_score_el.innerHTML = (playerScore + 1).toString();
-            showPopupGoodAnswer();
-        }
-        else {
-            showPopupBadAnswer();
+
+            var playerScoreModalEl = document.getElementById("player_score_finish");
+            var playerScoreText = document.createTextNode(playerScore.toString());
+            playerScoreModalEl.appendChild(playerScoreText);
+
+            var aiScoreModalEl = document.getElementById("ai_score_finish");
+            var aiScoreText = document.createTextNode(aiScore.toString());
+            aiScoreModalEl.appendChild(aiScoreText);
+
+            setTimeout(showPopupFinish, 1500);
         }
 
         article_content.innerHTML = resFromServer['newArticleContent']

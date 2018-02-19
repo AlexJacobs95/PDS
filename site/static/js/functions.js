@@ -14,8 +14,6 @@ var article_content = document.getElementById("article-content");
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
-    //modal_t.style.display = "block";
-    //setTimeout(function() {modal_t.style.display = "none";},3000);
     console.log("Button True clicked")
     sendAnswer(true)
 
@@ -54,7 +52,11 @@ function sendAnswer(answer) {
         }
         else if (resFromServer['correct'] == true) {
             player_score.innerHTML = (score + 1).toString();
+            showPopupGoodAnswer();
 
+        }
+        else{
+            showPopupBadAnswer();
         }
 
         article_content.innerHTML = resFromServer['newArticleContent']
@@ -68,7 +70,14 @@ function sendAnswer(answer) {
 }
 
 function showPopupFinish() {
-    modal_finish.style.display="block";
+    modal_finish.style.display = "block";
 }
 
-
+function showPopupGoodAnswer() {
+    modal_t.style.display= "block";
+    setTimeout(function() {modal_t.style.display = "none";},3000);
+}
+function showPopupBadAnswer() {
+    modal_f.style.display = "block"
+    setTimeout(function() {modal_f.style.display = "none";},3000);
+}

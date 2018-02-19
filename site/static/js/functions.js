@@ -8,64 +8,64 @@ var btn_t = document.getElementById("but_true");
 var btn_f = document.getElementById("but_false");
 
 
-var player_score = document.getElementById("player-score");
+var player_score_el = document.getElementById("player-score");
+var ai_score_el = document.getElementById("AI-score");
 var article_content = document.getElementById("article-content");
 
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
-    console.log("Button True clicked")
+    console.log("Button True clicked");
     sendAnswer(true)
-
-
-}
+};
 
 btn_f.onclick = function () {
-    console.log("Button False clicked")
+    console.log("Button False clicked");
     sendAnswer(false)
-
-}
+};
 
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
-    if (event.target == modal_t) {
+    if (event.target === modal_t) {
         modal_t.style.display = "none";
     }
-    if (event.target == modal_f) {
+    if (event.target === modal_f) {
         modal_f.style.display = "none";
     }
-}
+};
 
 function sendAnswer(answer) {
     $.post('/game', {
         value: answer
     }).done(function (resFromServer) {
         console.log(resFromServer);
-        var score = parseInt(player_score.innerHTML);
-        if (resFromServer['displayPopupFinish']== true){
+        var playerScore = parseInt(player_score_el.innerHTML);
+        var aiScore = parseInt(ai_score_el.innerHTML);
+
+        if (resFromServer['aiCorrect'] === true) {
+            ai_score_el.innerHTML = (aiScore + 1).toString();
+        }
+
+        if (resFromServer['displayPopupFinish'] === true) {
             console.log("doit afficher popup de fin");
             var paragraph = document.getElementById("player_score_finish");
-            var text = document.createTextNode((score + 1).toString());
+            var text = document.createTextNode((playerScore + 1).toString());
             paragraph.appendChild(text);
-            player_score.innerHTML = (score + 1).toString();
+            player_score_el.innerHTML = (playerScore + 1).toString();
             showPopupFinish();
         }
-        else if (resFromServer['correct'] == true) {
-            player_score.innerHTML = (score + 1).toString();
+        else if (resFromServer['correct'] === true) {
+            player_score_el.innerHTML = (playerScore + 1).toString();
             showPopupGoodAnswer();
-
         }
-        else{
+        else {
             showPopupBadAnswer();
         }
 
         article_content.innerHTML = resFromServer['newArticleContent']
-
-
     }).fail(function () {
         console.log("failed")
-
     });
 
 }
@@ -75,10 +75,15 @@ function showPopupFinish() {
 }
 
 function showPopupGoodAnswer() {
-    modal_t.style.display= "block";
-    setTimeout(function() {modal_t.style.display = "none";},3000);
+    modal_t.style.display = "block";
+    setTimeout(function () {
+        modal_t.style.display = "none";
+    }, 3000);
 }
+
 function showPopupBadAnswer() {
-    modal_f.style.display = "block"
-    setTimeout(function() {modal_f.style.display = "none";},3000);
+    modal_f.style.display = "block";
+    setTimeout(function () {
+        modal_f.style.display = "none";
+    }, 3000);
 }

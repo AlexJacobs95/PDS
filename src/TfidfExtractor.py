@@ -4,7 +4,6 @@ import time
 import spacy
 import string
 
-
 punctuations = string.punctuation
 nlp = spacy.load('en', disable=['parser', 'ner'])
 
@@ -21,21 +20,23 @@ def spacy_tokenizer(sentence):
 
 
 class TfidfExtractor:
-    def __init__(self, ngram, max_features):
-        #self.vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english', ngram_range=(1, ngram),
+    def __init__(self, ngram, max_features=None):
+        # self.vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english', ngram_range=(1, ngram),
         #                                  tokenizer=spacy_tokenizer)
 
-        self.vectorizer = TfidfVectorizer(sublinear_tf=True, max_features=max_features, max_df=0.5, stop_words='english', ngram_range=(1, ngram))
+        self.vectorizer = TfidfVectorizer(sublinear_tf=True, max_features=max_features, max_df=0.5,
+                                          stop_words='english', ngram_range=(1, ngram))
 
     def extract_train(self, data):
         features = self.vectorizer.fit_transform(data.text)
         return features
 
     def extract_test(self, data):
-        features = self.vectorizer.transform(data.text)
+        try:
+            features = self.vectorizer.transform(data.text)
+        except AttributeError:  # Not a dataframe, just an article
+            features = self.vectorizer.transform(data)
         return features
 
     def get_vectorizer(self):
         return self.vectorizer
-
-

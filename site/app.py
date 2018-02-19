@@ -1,20 +1,31 @@
 import sqlite3
+
+import sys
+
+import os
 from flask import request
 from flask import g
 from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import session
-from flask import redirect
 import random
 from googletrans import Translator
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'
 
 DATABASE = 'database/database.db'
-ARTICLE_NUMBER = 40
+NUMBER_OF_ARTICLES = 40
 NUMBER_OF_ROUNDS_PER_GAME = 5
 TRANSLATOR = Translator()
+
+AIisOn = True
+if AIisOn:
+    sys.path.insert(1, os.path.join(sys.path[0], '..', 'src'))
+    from predictor import Predictor
+
+    predictor = Predictor()
 
 
 def make_dicts(cursor, row):
@@ -57,22 +68,30 @@ def game():
         return render_template('game.html', article_content=session["current_article"]["content"])
 
     elif request.method == 'POST':
-
-        # Return True of the answer was correct, else return False
+        # Returns True if the answer was correct, else return False
         player_answer = request.form['value']
-        return_val = jsonify({'correct': checkIfCorrect(session["current_article"]['label'], player_answer),
-                              'newArticleContent': session["current_article"]["content"], 'displayPopupFinish': False})
+        article, label = session["current_article"]["content"], session["current_article"]['label']
 
-        if session["round"] <= NUMBER_OF_ROUNDS_PER_GAME-2:
-            updateGame()
+        if AIisOn:
+            aiIsCorrect = predictor.predict(article) == label
         else:
-            return_val = jsonify({'correct': checkIfCorrect(session["current_article"]['label'], player_answer),
-                                  'newArticleContent': session["current_article"]["content"], 'displayPopupFinish': True})
-        return return_val
+            aiIsCorrect = False
+
+        finishedGame = (session["round"] + 1 >= NUMBER_OF_ROUNDS_PER_GAME)
+
+        if not finishedGame:
+            updateGame()
+
+        return jsonify({
+            'correct': checkIfCorrect(label, player_answer),
+            'aiCorrect': aiIsCorrect,
+            'newArticleContent': session["current_article"]["content"],
+            'displayPopupFinish': finishedGame
+        })
 
 
 def initGame():
-    session["game_articles_ids"] = genateRandomIds(NUMBER_OF_ROUNDS_PER_GAME)
+    session["game_articles_ids"] = generateRandomIds(NUMBER_OF_ROUNDS_PER_GAME)
     session["round"] = 0
     session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
 
@@ -96,13 +115,13 @@ def getArticle(articleID):
     query = "SELECT content, id, label FROM Articles WHERE id=" + str(articleID)
     info = query_db(query)
     content, label = info[0]['content'], info[0]['label']
-    #Uncomment to translate articles
+    # Uncomment to translate articles
     # content = TRANSLATOR.translate(content, dest='fr').text
     return {'content': content, 'label': label}
 
 
-def genateRandomIds(x):
+def generateRandomIds(x):
     """
     Return x articles (id, content, label)
     """
-    return random.sample(range(0, ARTICLE_NUMBER), x)
+    return random.sample(range(0, NUMBER_OF_ARTICLES), x)

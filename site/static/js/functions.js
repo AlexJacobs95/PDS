@@ -68,7 +68,7 @@ function sendAnswer(answer) {
             aiScoreModalEl.appendChild(aiScoreText);
 
             setTimeout(showPopupFinish, 1500);
-            article_content.innerHTML = ""
+            article_content.innerHTML = "Fin du jeu!"
         } else {
             article_content.innerHTML = resFromServer['newArticleContent']
         }

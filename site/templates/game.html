@@ -30,8 +30,8 @@
                 Joueur :
             </h4>
         </div>
-        <div class="col-6 text-center">
-            Article
+        <div class="col-6 text-center" id="article-counter">
+            Article 1 sur 5
         </div>
         <div class="col">
             <h4 class="text-center">
@@ -75,18 +75,12 @@
 
 
     </div>
-    <div id="myModal_true" class="modal">
+
+
+    <div id="myModal_answer" class="modal">
         <!-- Modal content -->
         <div class="modal-perso">
-            <center><img src="../static/assets/good_answer.jpeg" style="height: 25%; width: 25%"></center>
-        </div>
-
-    </div>
-
-    <div id="myModal_false" class="modal">
-        <!-- Modal content -->
-        <div class="modal-perso">
-            <center><img src="../static/assets/bad_answer.jpeg" style="height: 25%; width: 25%"></center>
+            <center><img id="player_answer_img" src="" style="height: 25%; width: 25%"> <img id="robot_answer_img" src="" style="height: 25%; width: 25%"></center>
         </div>
 
     </div>
@@ -104,6 +98,6 @@
 </div>
 
 </body>
-<script src="../static/js/functions.js?10"></script>
+<script src="../static/js/functions.js?13"></script>
 
 </html>

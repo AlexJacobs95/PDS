@@ -1,7 +1,9 @@
-from app import *
 import os
 
+from app import *
+
 if __name__ == '__main__':
+    s = True
     app.secret_key = os.urandom(24)
     app.config['SESSION_TYPE'] = 'filesystem'
     app.jinja_env.auto_reload = True

@@ -1,19 +1,17 @@
+import os
+import random
 import sqlite3
-
 import sys
 
-import os
-from flask import request
-from flask import g
 from flask import Flask
+from flask import g
 from flask import jsonify
 from flask import render_template
+from flask import request
 from flask import session
-import random
 from googletrans import Translator
 
 app = Flask(__name__)
-app.secret_key = 'super secret key'
 
 DATABASE = 'database/database.db'
 NUMBER_OF_ARTICLES = 40

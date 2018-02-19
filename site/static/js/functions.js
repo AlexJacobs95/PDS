@@ -1,7 +1,6 @@
 // Get the modal
-var modal_t = document.getElementById('myModal_true');
-var modal_f = document.getElementById('myModal_false');
 var modal_finish = document.getElementById('myModal_finish');
+var modal_answer = document.getElementById('myModal_answer');
 
 // Get the button that opens the modal
 var btn_t = document.getElementById("but_true");
@@ -48,16 +47,25 @@ function sendAnswer(answer) {
         if (resFromServer['aiCorrect'] === true) {
             aiScore += 1;
             ai_score_el.innerHTML = aiScore.toString();
+            var img_robot_answer = document.getElementById("robot_answer_img");
+            img_robot_answer.src = "../static/assets/ai_good_answer.png";
+        }
+        else {
+            var img_robot_answer = document.getElementById("robot_answer_img");
+            img_robot_answer.src = "../static/assets/ai_bad_answer.png";
         }
 
         if (resFromServer['correct'] === true) {
             playerScore += 1;
             player_score_el.innerHTML = playerScore.toString();
-            showPopupGoodAnswer();
-        } else {
-            showPopupBadAnswer();
-        }
+            var img_player_answer = document.getElementById("player_answer_img");
+            img_player_answer.src = "../static/assets/good_answer.jpeg";
 
+        } else {
+            var img_player_answer = document.getElementById("player_answer_img");
+            img_player_answer.src = "../static/assets/bad_answer.jpeg";
+        }
+        showPopupAnswer();
 
         if (resFromServer['displayPopupFinish'] === true) {
             console.log("doit afficher popup de fin");
@@ -89,16 +97,9 @@ function showPopupFinish() {
     modal_finish.style.display = "block";
 }
 
-function showPopupGoodAnswer() {
-    modal_t.style.display = "block";
+function showPopupAnswer() {
+    myModal_answer.style.display = "block";
     setTimeout(function () {
-        modal_t.style.display = "none";
-    }, 1500);
-}
-
-function showPopupBadAnswer() {
-    modal_f.style.display = "block";
-    setTimeout(function () {
-        modal_f.style.display = "none";
+        modal_answer.style.display = "none";
     }, 1500);
 }

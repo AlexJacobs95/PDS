@@ -91,15 +91,15 @@
     <div id="myModal_finish" class="modal">
         <!-- Modal content -->
         <div class="modal-perso">
+            <h1 id = "victory_or_defeat" class="text-center"></h1>
             <p id="player_score_finish" class="text-center">Voici votre score: </p>
             <p id="ai_score_finish" class="text-center">Voici le score de l'IA: </p>
-            <p id = "victory_or_defeat" class="text-center"></p>
-            <p class="text-center">Voulez vous rejouer une partie:</p>
+            <p class="text-center" id="replay-text">Voulez vous rejouer une partie?</p>
             <center>
-                <button id="yes_replay" onclick="window.location.href='{{ url_for( 'game' ) }}';">Oui, je veux rejouer
+                <button class="btn btn-success" id="yes_replay" onclick="window.location.href='{{ url_for( 'game' ) }}';">Oui, je veux rejouer
                     !
                 </button>
-                <button id="no_replay" onclick="window.location.href='{{ url_for( 'index' ) }}';">Non, je ne veux pas
+                <button class="btn btn-danger" id="no_replay" onclick="window.location.href='{{ url_for( 'index' ) }}';">Non, je ne veux pas
                 </button>
             </center>
         </div>

@@ -81,6 +81,19 @@ function sendAnswer(answer) {
             var aiScoreText = document.createTextNode(aiScore.toString());
             aiScoreModalEl.appendChild(aiScoreText);
 
+            var victory_defeat = document.getElementById("victory_or_defeat");
+            if (playerScore > aiScore) {
+                victory_defeat.innerHTML = "VICTOIRE !";
+                victory_defeat.style.color = "green";
+            } else if (aiScore > playerScore) {
+                victory_defeat.innerHTML = "DÉFAITE !";
+                victory_defeat.style.color = "red";
+            } else {
+                victory_defeat.innerHTML = "ÉGALITÉ !";
+                victory_defeat.style.color = "blue";
+
+            }
+
             setTimeout(function () {
                 showPopupFinish();
                 article_content.innerHTML = "Fin du jeu!"

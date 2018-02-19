@@ -68,9 +68,12 @@ function sendAnswer(answer) {
             aiScoreModalEl.appendChild(aiScoreText);
 
             setTimeout(showPopupFinish, 1500);
+            article_content.innerHTML = ""
+        } else {
+            article_content.innerHTML = resFromServer['newArticleContent']
         }
 
-        article_content.innerHTML = resFromServer['newArticleContent']
+
     }).fail(function () {
         console.log("failed")
     });

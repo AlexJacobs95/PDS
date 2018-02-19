@@ -35,6 +35,8 @@ window.onclick = function (event) {
     }
 };
 
+var popupTime = 3000;
+
 function sendAnswer(answer) {
     $.post('/game', {
         value: answer
@@ -67,10 +69,15 @@ function sendAnswer(answer) {
             var aiScoreText = document.createTextNode(aiScore.toString());
             aiScoreModalEl.appendChild(aiScoreText);
 
-            setTimeout(showPopupFinish, 1500);
-            article_content.innerHTML = "Fin du jeu!"
+            setTimeout(function() { 
+                showPopupFinish();
+                article_content.innerHTML = "Fin du jeu!"
+            }, 1500);
+            
         } else {
-            article_content.innerHTML = resFromServer['newArticleContent']
+            setTimeout(function() {
+                article_content.innerHTML = resFromServer['newArticleContent'];    
+            }, popupTime)
         }
 
 
@@ -88,12 +95,12 @@ function showPopupGoodAnswer() {
     modal_t.style.display = "block";
     setTimeout(function () {
         modal_t.style.display = "none";
-    }, 3000);
+    }, popupTime);
 }
 
 function showPopupBadAnswer() {
     modal_f.style.display = "block";
     setTimeout(function () {
         modal_f.style.display = "none";
-    }, 3000);
+    }, popupTime);
 }

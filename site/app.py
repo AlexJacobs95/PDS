@@ -13,7 +13,6 @@ import random
 from googletrans import Translator
 
 app = Flask(__name__)
-app.secret_key = 'super secret key'
 
 DATABASE = 'database/database.db'
 NUMBER_OF_ARTICLES = 40

@@ -156,7 +156,7 @@ if __name__ == '__main__':
 
             features_used = [feature[2] for feature in combination]
 
-            print("best score = " + str(results[0].score) + "using " + str(results[0].clf) )
+            print("best score = " + str(results[0].score) + " using " + str(results[0].clf) )
 
             best_res.append([results[0].score, results[0].clf, [feature for feature in features_used]])
 

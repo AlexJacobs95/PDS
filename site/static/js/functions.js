@@ -48,6 +48,7 @@ function sendAnswer(answer) {
             var paragraph = document.getElementById("player_score_finish");
             var text = document.createTextNode((score + 1).toString());
             paragraph.appendChild(text);
+            player_score.innerHTML = (score + 1).toString();
             showPopupFinish();
         }
         else if (resFromServer['correct'] == true) {

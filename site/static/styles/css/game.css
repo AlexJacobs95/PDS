@@ -60,3 +60,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
 #ai_score_finish {
     margin-bottom: 25px;
 }
+
+#article-content {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+}

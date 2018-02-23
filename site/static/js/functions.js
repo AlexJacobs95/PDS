@@ -142,7 +142,7 @@ function SendTextToServer() {
 }
 
 function sendText(textToAnalyse) {
-    $.post('/index', {
+    $.post('/', {
         value: textToAnalyse
     }).done(function (resFromServer) {
         console.log(resFromServer);

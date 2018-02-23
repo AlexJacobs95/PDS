@@ -24,9 +24,27 @@
                     class="btn btn-primary btn-lg"
                     style="padding: 32px 60px; background-color: #78508D; border-color: #78508D">Jouer
             </button>
+            <br> <br>
+            <button id ="buttonShowCopyPasteZone" type="button" onclick="toggleShow()"
+                    class="btn btn-primary btn-lg"
+                    style="padding: 32px 60px; background-color: #78508D; border-color: #78508D">Soumettre son propre texte
+            </button>
+            <br><br>
+            <div id="copyPasteZone" style="display: none">
+               <textarea id ="textToAnalyse" rows="15" cols="50">
+                   Coller votre article ici
+                   Paste your article here
+               </textarea>
+                <br> <br>
+                <button type="buttonSubmitText" onclick="SendTextToServer()"
+                    class="btn btn-primary btn-lg"
+                    style="padding: 32px 60px; background-color: #78508D; border-color: #78508D">Soumettre à analyse
+            </button>
+            </div>
         </h4>
     </div>
 </div>
+<script src="../static/js/functions.js?15"></script>
 
 
 </html>

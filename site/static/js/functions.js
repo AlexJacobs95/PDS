@@ -123,3 +123,26 @@ function showPopupAnswer() {
         modal_answer.style.display = "none";
     }, popupTime);
 }
+function toggleShow() {
+    var x = document.getElementById("copyPasteZone");
+    var btn = document.getElementById("buttonShowCopyPasteZone");
+    if (x.style.display === "none"){
+        x.style.display = "block";
+        btn.style.display = 'none';
+    } else {
+        x.style.display = "none";
+    }
+}
+
+function SendTextToServer() {
+    var textToAnalyse = document.getElementById('textToAnalyse');
+    textToAnalyse = textToAnalyse.value;
+    console.log(textToAnalyse);
+   $.post('/index', {
+        value: analyseText
+    }).done(function (resFromServer) {
+        console.log(resFromServer);
+    }).fail(function () {
+        console.log("failed")
+    });
+}

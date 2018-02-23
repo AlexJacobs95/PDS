@@ -53,10 +53,12 @@ def close_connection(exception):
         db.close()
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
-
+    if request.method == "POST":
+        print("FaireAnalyse")
+    else:
+        return render_template('index.html')
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():

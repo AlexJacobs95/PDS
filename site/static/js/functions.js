@@ -138,8 +138,12 @@ function SendTextToServer() {
     var textToAnalyse = document.getElementById('textToAnalyse');
     textToAnalyse = textToAnalyse.value;
     console.log(textToAnalyse);
-   $.post('/index', {
-        value: analyseText
+    sendText(textToAnalyse);
+}
+
+function sendText(textToAnalyse) {
+    $.post('/index', {
+        value: textToAnalyse
     }).done(function (resFromServer) {
         console.log(resFromServer);
     }).fail(function () {

@@ -52,13 +52,19 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route("/")
 def index():
+    return render_template('index.html')
+
+@app.route('/index', methods=['POST'])
+def analyse():
     if request.method == "POST":
         print("FaireAnalyse")
-    else:
-        return render_template('index.html')
+        text_to_analyse = request.form['value']
+        resultAnalyse = predictor.predict(text_to_analyse)
+        return jsonify({
+            'result': resultAnalyse
+        })
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():

@@ -126,27 +126,61 @@ function showPopupAnswer() {
 function toggleShow() {
     var x = document.getElementById("copyPasteZone");
     var btn = document.getElementById("buttonShowCopyPasteZone");
-    if (x.style.display === "none"){
+    if (x.style.display === "none") {
+        ClearZoneCopyPaste();
         x.style.display = "block";
         btn.style.display = 'none';
-    } else {
-        x.style.display = "none";
     }
 }
 
 function SendTextToServer() {
     var textToAnalyse = document.getElementById('textToAnalyse');
     textToAnalyse = textToAnalyse.value;
-    console.log(textToAnalyse);
     sendText(textToAnalyse);
 }
 
 function sendText(textToAnalyse) {
-    $.post('/', {
+    $.post('/index', {
         value: textToAnalyse
     }).done(function (resFromServer) {
-        console.log(resFromServer);
+        ShowPopupAnalyseResult(resFromServer["result"]);
     }).fail(function () {
         console.log("failed")
     });
+}
+
+function CopyPasteZoneHide() {
+    var x = document.getElementById("copyPasteZone");
+    var btn = document.getElementById("buttonShowCopyPasteZone");
+    x.style.display = 'none';
+    btn.style.display = 'block';
+    ClosePopup();
+}
+
+function ClosePopup() {
+    var popup = document.getElementById('myModal_analyse');
+    ClearZoneCopyPaste();
+    popup.style.display = 'none';
+}
+
+function ClearZoneCopyPaste() {
+     console.log('clearzonetext')
+     var textToAnalyse = document.getElementById('textToAnalyse');
+     textToAnalyse.value = '';
+}
+
+function ShowPopupAnalyseResult(result) {
+
+    var text = document.getElementById("resultText");
+    var popup = document.getElementById('myModal_analyse');
+    if (result){
+        text.innerHTML = "VRAI !";
+        text.style.color = "green";
+    }
+    else{
+        text.innerHTML = "FAUX !";
+        text.style.color = "red";
+    }
+    popup.style.display = 'block';
+
 }

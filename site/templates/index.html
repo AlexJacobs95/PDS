@@ -7,12 +7,14 @@
     <title>FND - Fake News Dectector</title>
     <link href="../static/styles/css/bootstrap.css" rel="stylesheet">
     <link href="../static/styles/css/index.css" rel="stylesheet">
+    <link href="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="icon" type="image/png" href="../static/assets/logo.jpeg" />
 
 </head>
 
 {% include 'navbar.html' %}
-
+<body>
 <div class="jumbotron d-flex align-items-center" style="height: 100vh; background-color: #fcfcfc">
     <div class="container text-center">
         <h1>
@@ -25,15 +27,13 @@
                     style="padding: 32px 60px; background-color: #78508D; border-color: #78508D">Jouer
             </button>
             <br> <br>
-            <button id ="buttonShowCopyPasteZone" type="button" onclick="toggleShow()"
+            <center><button id ="buttonShowCopyPasteZone" type="button" onclick="toggleShow()"
                     class="btn btn-primary btn-lg"
                     style="padding: 32px 60px; background-color: #78508D; border-color: #78508D">Soumettre son propre texte
-            </button>
+            </button></center>
             <br><br>
             <div id="copyPasteZone" style="display: none">
-               <textarea id ="textToAnalyse" rows="15" cols="50">
-                   Coller votre article ici
-                   Paste your article here
+               <textarea id ="textToAnalyse" placeholder="Coller votre article ici, Paste your article here">
                </textarea>
                 <br> <br>
                 <button type="buttonSubmitText" onclick="SendTextToServer()"
@@ -43,6 +43,23 @@
             </div>
         </h4>
     </div>
+</div>
+
+</body>
+<div id="myModal_analyse" class="modal">
+        <!-- Modal content -->
+        <div class="modal-perso">
+            <p id="analyseTextResult" class="text-center">Notre algorithme a analysé votre article <br> et nous avons déterminé que celui-ci est </p><p class="text-center" id="resultText"></p>
+            <p class="text-center" id="replay-text">Voulez vous analyser un autre article?</p>
+            <center>
+                <button class="btn btn-success" id="yes_replay" onclick="ClosePopup()">Oui, je le veux
+                    !
+                </button>
+                <button class="btn btn-danger" id="no_replay" onclick="CopyPasteZoneHide()">Non, je ne veux pas
+                </button>
+            </center>
+        </div>
+
 </div>
 <script src="../static/js/functions.js?18"></script>
 

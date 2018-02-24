@@ -4,9 +4,10 @@ import time
 import pandas as pd
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-class PunctuationStatisticsVectorizer(CountVectorizer):
+class PunctuationStatisticsVectorizer(TfidfVectorizer):
 
     def __init__(self):
         super(PunctuationStatisticsVectorizer, self).__init__()
@@ -26,18 +27,21 @@ class PunctuationStatisticsVectorizer(CountVectorizer):
 
 class PunctuationExtractor:
     def __init__(self):
-        self.punctuation_statistics_vect = PunctuationStatisticsVectorizer()
+        self.vectorizer = PunctuationStatisticsVectorizer()
 
     def extract_train(self, data):
-        features = self.punctuation_statistics_vect.fit_transform(
+        features = self.vectorizer.fit_transform(
             data.text)  # data.text c'est le contenu de la colone text donc c'est tous les database.db
 
         return features
 
     def extract_test(self, data):
-        features = self.punctuation_statistics_vect.transform(data.text)
+        features = self.vectorizer.transform(data.text)
 
         return features
+
+    def get_vectorizer(self):
+        return self.vectorizer
 
 
 def csrtomatrix(data, vocabulary):
@@ -71,7 +75,7 @@ def main():
     data = pd.read_csv(working_file)
     extractor = PunctuationExtractor()
     features = extractor.extract_train(data)
-    create_csv_file(features, extractor.punctuation_statistics_vect.vocabulary_, output_file)
+    create_csv_file(features, extractor.vectorizer.vocabulary_, output_file)
 
 
 if __name__ == '__main__':

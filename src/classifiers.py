@@ -96,24 +96,21 @@ if __name__ == '__main__':
     tfidf_test = sparse.load_npz('../features/tfidf_test_features.npz')
     all_features.append([tfidf_train, tfidf_test, "tfidf"])
 
-    # punctuation_train = sparse.load_npz('../features_dataset2/punctuation_train_features.npz')
-    # punctuation_test = sparse.load_npz('../features_dataset2/punctuation_test_features.npz')
-    # all_features.append([punctuation_train, punctuation_test, "punctuation"])
-    #
-    # pronouns_train = sparse.load_npz('../features_dataset2/pronouns_train_features.npz')
-    # pronouns_test = sparse.load_npz('../features_dataset2/pronouns_test_features.npz')
-    # all_features.append([pronouns_train, pronouns_test, "pronouns"])
+    punctuation_train = sparse.load_npz('../features/punctuation_tfidf_train_features.npz')
+    punctuation_test = sparse.load_npz('../features/punctuation_tfidf_test_features.npz')
+    all_features.append([punctuation_train, punctuation_test, "punctuation"])
 
-    # text_counts_train = sparse.load_npz('../features/text_count_train_features.npz')
-    # text_counts_test = sparse.load_npz('../features/text_count_test_features.npz')
-    # all_features.append([text_counts_train, text_counts_test, "text_count"])
-    #
-    # # readability_train = sparse.load_npz('../features/readablity_train_features.npz')
-    # # readability_test = sparse.load_npz('../features/readablity_test_features.npz')
-    #
-    # sentiment_train = sparse.load_npz('../features/sentiment_train_features.npz')
-    # sentiment_test = sparse.load_npz('../features/sentiment_test_features.npz')
-    # all_features.append([sentiment_train, sentiment_test, "sentiment"])
+    pronouns_train = sparse.load_npz('../features/pronouns_tfidf_train_features.npz')
+    pronouns_test = sparse.load_npz('../features/pronouns_tfidf_test_features.npz')
+    all_features.append([pronouns_train, pronouns_test, "pronouns"])
+
+    text_counts_train = sparse.load_npz('../features/text_count_train_features.npz')
+    text_counts_test = sparse.load_npz('../features/text_count_test_features.npz')
+    all_features.append([text_counts_train, text_counts_test, "text_count"])
+
+    sentiment_train = sparse.load_npz('../features/sentiment_train_features.npz')
+    sentiment_test = sparse.load_npz('../features/sentiment_test_features.npz')
+    all_features.append([sentiment_train, sentiment_test, "sentiment"])
 
     best_res = []
 

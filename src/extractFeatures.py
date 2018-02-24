@@ -8,11 +8,11 @@ from scipy import sparse
 import pandas as pd
 import time
 
-TRAIN = pd.read_csv("../dataset/train2_80.csv")
-TEST = pd.read_csv("../dataset/test2_20.csv")
+TRAIN = pd.read_csv("../dataset/train_80.csv")
+TEST = pd.read_csv("../dataset/test_20.csv")
 SENTIMENT_DATA = pd.read_csv("../resources/emotion.csv")
 
-SAVE_PATH = '../features_dataset2/'
+SAVE_PATH = '../features/'
 
 
 def extractFeatureWithVectorizer(extractor, feature_name, dataset, train=False):
@@ -69,18 +69,18 @@ if __name__ == '__main__':
     #     extractFeature(feature_name, TRAIN, train=True)
     #     extractFeature(feature_name, TEST)
 
-    max_features = 500
-    extractor = TfidfExtractor(ngram=1)
-    extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TRAIN, train=True)
-    extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TEST)
+    # max_features = 500
+    # extractor = TfidfExtractor(ngram=1)
+    # extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TRAIN, train=True)
+    # extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TEST)
 
     extractor = PunctuationExtractor()
-    extractFeatureWithVectorizer(extractor, 'punctuation', TRAIN, train=True)
-    extractFeatureWithVectorizer(extractor, 'punctuation', TEST)
+    extractFeatureWithVectorizer(extractor, 'punctuation_tfidf', TRAIN, train=True)
+    extractFeatureWithVectorizer(extractor, 'punctuation_tfidf', TEST)
 
     extractor = PronounsExtractor()
-    extractFeatureWithVectorizer(extractor, 'pronouns', TRAIN, train=True)
-    extractFeatureWithVectorizer(extractor, 'pronouns', TEST)
+    extractFeatureWithVectorizer(extractor, 'pronouns_tfidf', TRAIN, train=True)
+    extractFeatureWithVectorizer(extractor, 'pronouns_tfidf', TEST)
 
     # train = pd.read_csv("../dataset/train_80.csv")
     # test = pd.read_csv("../dataset/test_20.csv")

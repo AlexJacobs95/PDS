@@ -1,6 +1,6 @@
 import pandas as pd
 from scipy import sparse
-from sklearn.linear_model import SGDClassifier, PassiveAggressiveClassifier
+from sklearn.linear_model import RidgeClassifier, PassiveAggressiveClassifier
 
 from TfidfExtractor import TfidfExtractor
 
@@ -14,7 +14,7 @@ class Predictor:
 
         print("Training classifier")
         # self.classifier = SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet")
-        self.classifier = PassiveAggressiveClassifier(max_iter=50)
+        self.classifier = RidgeClassifier(tol=1e-2, solver="sag")
         self.classifier.fit(tfidf_train, dataframe_train.code)
 
         print("Loading and training TfidfVectorizer needed to do feature extraction later on")

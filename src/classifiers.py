@@ -92,24 +92,21 @@ if __name__ == '__main__':
     dataframe_train = pd.read_csv("../dataset/train_80.csv")
     dataframe_test = pd.read_csv("../dataset/test_20.csv")
 
-    tfidf_train = sparse.load_npz('../features/tfidf_500_train_features.npz')
-    tfidf_test = sparse.load_npz('../features/tfidf_500_test_features.npz')
+    tfidf_train = sparse.load_npz('../features/tfidf_train_features.npz')
+    tfidf_test = sparse.load_npz('../features/tfidf_test_features.npz')
     all_features.append([tfidf_train, tfidf_test, "tfidf"])
 
-    punctuation_train = sparse.load_npz('../features/punctuations_train_features.npz')
-    punctuation_test = sparse.load_npz('../features/punctuations_test_features.npz')
+    punctuation_train = sparse.load_npz('../features/punctuation_tfidf_train_features.npz')
+    punctuation_test = sparse.load_npz('../features/punctuation_tfidf_test_features.npz')
     all_features.append([punctuation_train, punctuation_test, "punctuation"])
 
-    pronouns_train = sparse.load_npz('../features/pronouns_train_features.npz')
-    pronouns_test = sparse.load_npz('../features/pronouns_test_features.npz')
+    pronouns_train = sparse.load_npz('../features/pronouns_tfidf_train_features.npz')
+    pronouns_test = sparse.load_npz('../features/pronouns_tfidf_test_features.npz')
     all_features.append([pronouns_train, pronouns_test, "pronouns"])
 
     text_counts_train = sparse.load_npz('../features/text_count_train_features.npz')
     text_counts_test = sparse.load_npz('../features/text_count_test_features.npz')
     all_features.append([text_counts_train, text_counts_test, "text_count"])
-
-    # readability_train = sparse.load_npz('../features/readablity_train_features.npz')
-    # readability_test = sparse.load_npz('../features/readablity_test_features.npz')
 
     sentiment_train = sparse.load_npz('../features/sentiment_train_features.npz')
     sentiment_test = sparse.load_npz('../features/sentiment_test_features.npz')

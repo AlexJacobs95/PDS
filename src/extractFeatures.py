@@ -12,6 +12,8 @@ TRAIN = pd.read_csv("../dataset/train_80.csv")
 TEST = pd.read_csv("../dataset/test_20.csv")
 SENTIMENT_DATA = pd.read_csv("../resources/emotion.csv")
 
+SAVE_PATH = '../features/'
+
 
 def extractFeatureWithVectorizer(extractor, feature_name, dataset, train=False):
     print("Extracting " + feature_name)
@@ -24,9 +26,9 @@ def extractFeatureWithVectorizer(extractor, feature_name, dataset, train=False):
         features = extractor.extract_test(dataset)
 
     if train:
-        path = '../features/' + feature_name + '_train_features.npz'
+        path = SAVE_PATH + feature_name + '_train_features.npz'
     else:
-        path = '../features/' + feature_name + '_test_features.npz'
+        path = SAVE_PATH + feature_name + '_test_features.npz'
 
     sparse.save_npz(path, features)
 
@@ -52,9 +54,9 @@ def extractFeature(feature_name, dataset, train=False):
         return
 
     if train:
-        path = '../features/' + feature_name + '_train_features.npz'
+        path = SAVE_PATH + feature_name + '_train_features.npz'
     else:
-        path = '../features/' + feature_name + '_test_features.npz'
+        path = SAVE_PATH + feature_name + '_test_features.npz'
 
     sparse.save_npz(path, features)
 
@@ -63,22 +65,22 @@ def extractFeature(feature_name, dataset, train=False):
 
 
 if __name__ == '__main__':
-    for feature_name in ['text_count', 'readability', 'sentiment']:
-        extractFeature(feature_name, TRAIN, train=True)
-        extractFeature(feature_name, TEST)
+    # for feature_name in ['text_count', 'readability', 'sentiment']:
+    #     extractFeature(feature_name, TRAIN, train=True)
+    #     extractFeature(feature_name, TEST)
 
-    max_features = 500
-    extractor = TfidfExtractor(ngram=1, max_features=max_features)
-    extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TRAIN, train=True)
-    extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TEST)
+    # max_features = 500
+    # extractor = TfidfExtractor(ngram=1)
+    # extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TRAIN, train=True)
+    # extractFeatureWithVectorizer(extractor, 'tfidf_' + str(max_features), TEST)
 
     extractor = PunctuationExtractor()
-    extractFeatureWithVectorizer(extractor, 'punctuation', TRAIN)
-    extractFeatureWithVectorizer(extractor, 'punctuation', TEST)
+    extractFeatureWithVectorizer(extractor, 'punctuation_tfidf', TRAIN, train=True)
+    extractFeatureWithVectorizer(extractor, 'punctuation_tfidf', TEST)
 
     extractor = PronounsExtractor()
-    extractFeatureWithVectorizer(extractor, 'pronouns', TRAIN)
-    extractFeatureWithVectorizer(extractor, 'prounouns', TEST)
+    extractFeatureWithVectorizer(extractor, 'pronouns_tfidf', TRAIN, train=True)
+    extractFeatureWithVectorizer(extractor, 'pronouns_tfidf', TEST)
 
     # train = pd.read_csv("../dataset/train_80.csv")
     # test = pd.read_csv("../dataset/test_20.csv")

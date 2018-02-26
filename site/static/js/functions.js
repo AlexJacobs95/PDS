@@ -16,12 +16,10 @@ var article_counter = 1;
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
-    console.log("Button True clicked");
     sendAnswer(true)
 };
 
 btn_f.onclick = function () {
-    console.log("Button False clicked");
     sendAnswer(false)
 };
 
@@ -42,7 +40,6 @@ function sendAnswer(answer) {
     $.post('/game', {
         value: answer
     }).done(function (resFromServer) {
-        console.log(resFromServer);
         var playerScore = parseInt(player_score_el.innerHTML);
         var aiScore = parseInt(ai_score_el.innerHTML);
 
@@ -122,4 +119,64 @@ function showPopupAnswer() {
     setTimeout(function () {
         modal_answer.style.display = "none";
     }, popupTime);
+}
+function toggleShow() {
+    var x = document.getElementById("copyPasteZone");
+    var btn = document.getElementById("buttonShowCopyPasteZone");
+    if (x.style.display === "none") {
+        ClearZoneCopyPaste();
+        x.style.display = "block";
+        btn.style.display = 'none';
+    }
+}
+
+function SendTextToServer() {
+    var textToAnalyse = document.getElementById('textToAnalyse');
+    textToAnalyse = textToAnalyse.value;
+    sendText(textToAnalyse);
+}
+
+function sendText(textToAnalyse) {
+    $.post('/index', {
+        value: textToAnalyse
+    }).done(function (resFromServer) {
+        ShowPopupAnalyseResult(resFromServer["result"]);
+    }).fail(function () {
+        console.log("failed")
+    });
+}
+
+function CopyPasteZoneHide() {
+    var x = document.getElementById("copyPasteZone");
+    var btn = document.getElementById("buttonShowCopyPasteZone");
+    x.style.display = 'none';
+    btn.style.display = 'block';
+    ClosePopup();
+}
+
+function ClosePopup() {
+    var popup = document.getElementById('myModal_analyse');
+    ClearZoneCopyPaste();
+    popup.style.display = 'none';
+}
+
+function ClearZoneCopyPaste() {
+    var textToAnalyse = document.getElementById('textToAnalyse');
+    textToAnalyse.value = '';
+}
+
+function ShowPopupAnalyseResult(result) {
+
+    var text = document.getElementById("resultText");
+    var popup = document.getElementById('myModal_analyse');
+    if (result){
+        text.innerHTML = "VRAI !";
+        text.style.color = "green";
+    }
+    else{
+        text.innerHTML = "FAUX !";
+        text.style.color = "red";
+    }
+    popup.style.display = 'block';
+
 }

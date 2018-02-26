@@ -4,6 +4,7 @@ import time
 import pandas as pd
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 nlp = spacy.load('en', disable=['parser', 'ner', 'entity', "vector", "tagger", "textcat"])
 
@@ -22,7 +23,7 @@ def spacy_tokenizer(sentence):
 
 class PronounsExtractor:
     def __init__(self):
-        self.vectorizer = CountVectorizer(tokenizer=spacy_tokenizer)
+        self.vectorizer = TfidfVectorizer(tokenizer=spacy_tokenizer)
 
     def extract_train(self, data):
         features = self.vectorizer.fit_transform(data.text)

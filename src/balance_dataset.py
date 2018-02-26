@@ -73,10 +73,10 @@ def mainFusion():
 
 
 def mainSplit():
-    train, test = splitDataset("../dataset/fusion_balanced.csv", prct_train=80)
+    train, test = splitDataset("../dataset/dataset2.csv", prct_train=80)
 
-    train.to_csv("../dataset/train_80.csv")
-    test.to_csv("../dataset/test_20.csv")
+    train.to_csv("../dataset/train2_80.csv")
+    test.to_csv("../dataset/test2_20.csv")
 
 
 if __name__ == "__main__":

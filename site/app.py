@@ -68,30 +68,75 @@ def game():
     elif request.method == 'POST':
         # Returns True if the answer was correct, else return False
         player_answer = request.form['value']
-        article, label = session["current_article"]["content"], session["current_article"]['label']
 
-        if AIisOn:
-            aiIsCorrect = predictor.predict(article) == label
-        else:
-            aiIsCorrect = False
+        article, label = session["current_article"]["content"], session["current_article"]['label']
+        aiAnswer = predictor.predict(article)
+        humanIsCorrect, aiIsCorrect = checkAnswers(label, player_answer, aiAnswer)
 
         finishedGame = (session["round"] + 1 >= NUMBER_OF_ROUNDS_PER_GAME)
 
         if not finishedGame:
             updateGame()
+        else:
+            saveGameResults()
 
         return jsonify({
-            'correct': checkIfCorrect(label, player_answer),
+            'correct': humanIsCorrect,
             'aiCorrect': aiIsCorrect,
             'newArticleContent': session["current_article"]["content"],
             'displayPopupFinish': finishedGame
         })
 
 
+def checkAnswers(label, player_answer, aiAnswer):
+    if AIisOn:
+        aiIsCorrect = aiAnswer == label
+    else:
+        aiIsCorrect = False
+
+    humanIsCorrect = checkIfCorrect(label, player_answer)
+    session["labels"] += [bool(label)]
+    session["human_correctness"] += [humanIsCorrect]
+    session["ai_correctness"] += [aiIsCorrect]
+
+    return humanIsCorrect, aiIsCorrect
+
+
+def getGameFile():
+    FILE_PATH = "answers.csv"
+    if os.path.exists(FILE_PATH):
+        return open(FILE_PATH, 'a')
+    else:  # If the file doesn't yet exist, we create it and add the header
+        file = open(FILE_PATH, 'a')
+        # Question IDS, answers, humanAnswers (correct/incorrect), aiAnswers (correct/incorrect), totalScores
+        header = "id1,id2,id3,id4,id5," \
+                 "label1, label2, label3, label4, label5," \
+                 "hAns1,hAns2,hAns3,hAns4,hAns5," \
+                 "aiAns1,aiAns2,aiAns3,aiAns4,aiAns5," \
+                 "hScore,aiScore\n"
+        file.write(header)
+        return file
+
+
+def saveGameResults():
+    with getGameFile() as f:
+        questionIds = [str(x) for x in session["game_articles_ids"]]
+        labels = [str(x) for x in session["labels"]]
+        humanCorrectness = [str(x) for x in session["human_correctness"]]
+        aiCorrectness = [str(x) for x in session["ai_correctness"]]
+
+        humanScore, aiScore = sum(session["human_correctness"]), sum(session["ai_correctness"])
+        scores = [str(humanScore), str(aiScore)]
+        f.write(','.join(questionIds + labels + humanCorrectness + aiCorrectness + scores) + '\n')
+
+
 def initGame():
     session["game_articles_ids"] = generateRandomIds(NUMBER_OF_ROUNDS_PER_GAME)
     session["round"] = 0
     session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
+    session["labels"] = []
+    session["human_correctness"] = []
+    session["ai_correctness"] = []
 
 
 def updateGame():

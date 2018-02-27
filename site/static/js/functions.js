@@ -133,7 +133,12 @@ function toggleShow() {
 function SendTextToServer() {
     var textToAnalyse = document.getElementById('textToAnalyse');
     textToAnalyse = textToAnalyse.value;
-    sendText(textToAnalyse);
+    if (textToAnalyse === ''){
+        alert('Veuillez entrer un article en Anglais. SVP.');
+    }
+    else{
+        sendText(textToAnalyse);
+    }
 }
 
 function sendText(textToAnalyse) {

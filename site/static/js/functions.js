@@ -16,12 +16,10 @@ var article_counter = 1;
 
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
-    console.log("Button True clicked");
     sendAnswer(true)
 };
 
 btn_f.onclick = function () {
-    console.log("Button False clicked");
     sendAnswer(false)
 };
 
@@ -42,7 +40,6 @@ function sendAnswer(answer) {
     $.post('/game', {
         value: answer
     }).done(function (resFromServer) {
-        console.log(resFromServer);
         var playerScore = parseInt(player_score_el.innerHTML);
         var aiScore = parseInt(ai_score_el.innerHTML);
 
@@ -136,7 +133,12 @@ function toggleShow() {
 function SendTextToServer() {
     var textToAnalyse = document.getElementById('textToAnalyse');
     textToAnalyse = textToAnalyse.value;
-    sendText(textToAnalyse);
+    if (textToAnalyse === ''){
+        alert('Veuillez entrer un article en Anglais. SVP.');
+    }
+    else{
+        sendText(textToAnalyse);
+    }
 }
 
 function sendText(textToAnalyse) {
@@ -164,9 +166,8 @@ function ClosePopup() {
 }
 
 function ClearZoneCopyPaste() {
-     console.log('clearzonetext')
-     var textToAnalyse = document.getElementById('textToAnalyse');
-     textToAnalyse.value = '';
+    var textToAnalyse = document.getElementById('textToAnalyse');
+    textToAnalyse.value = '';
 }
 
 function ShowPopupAnalyseResult(result) {

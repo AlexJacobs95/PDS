@@ -2,6 +2,7 @@ import os
 import random
 import sqlite3
 import sys
+import json
 
 from flask import Flask
 from flask import g
@@ -52,32 +53,37 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+
 @app.route("/")
 def index():
     return render_template('index.html')
 
+
 @app.route('/index', methods=['POST'])
 def analyse():
     if request.method == "POST":
-        print("FaireAnalyse")
         text_to_analyse = request.form['value']
         resultAnalyse = predictor.predict(text_to_analyse)
         return jsonify({
             'result': resultAnalyse
         })
 
+
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     if request.method == 'GET':
         initGame()
-        print(session["round"])
-        return render_template('game.html', article_content=session["current_article"]["content"])
+        article_en = getArticle(session["current_article_id"])["content"]
+        return render_template('game.html',
+                               article_content_fr=getTranslation(article_en),
+                               article_content_en=article_en)
 
     elif request.method == 'POST':
         # Returns True if the answer was correct, else return False
         player_answer = request.form['value']
 
-        article, label = session["current_article"]["content"], session["current_article"]['label']
+        current_article = getArticle(session["current_article_id"])
+        article, label = current_article["content"], current_article["label"]
         aiAnswer = predictor.predict(article)
         humanIsCorrect, aiIsCorrect = checkAnswers(label, player_answer, aiAnswer)
 
@@ -88,10 +94,12 @@ def game():
         else:
             saveGameResults()
 
+        article_en = getArticle(session["current_article_id"])["content"]
         return jsonify({
             'correct': humanIsCorrect,
             'aiCorrect': aiIsCorrect,
-            'newArticleContent': session["current_article"]["content"],
+            'newArticleContent_fr': getTranslation(article_en),
+            'newArticleContent_en': article_en,
             'displayPopupFinish': finishedGame
         })
 
@@ -141,7 +149,8 @@ def saveGameResults():
 def initGame():
     session["game_articles_ids"] = generateRandomIds(NUMBER_OF_ROUNDS_PER_GAME)
     session["round"] = 0
-    session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
+    session["current_article_id"] = session["game_articles_ids"][session["round"]]
+    # session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
     session["labels"] = []
     session["human_correctness"] = []
     session["ai_correctness"] = []
@@ -149,7 +158,8 @@ def initGame():
 
 def updateGame():
     session["round"] += 1
-    session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
+    session["current_article_id"] = session["game_articles_ids"][session["round"]]
+    # session["current_article"] = getArticle(session["game_articles_ids"][session["round"]])
 
 
 def checkIfCorrect(real_label, answer):
@@ -169,6 +179,10 @@ def getArticle(articleID):
     # Uncomment to translate articles
     # content = TRANSLATOR.translate(content, dest='fr').text
     return {'content': content, 'label': label}
+
+
+def getTranslation(articleContent):
+    return TRANSLATOR.translate(articleContent, dest='fr').text
 
 
 def generateRandomIds(x):

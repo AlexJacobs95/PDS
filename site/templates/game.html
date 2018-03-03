@@ -9,7 +9,7 @@
     <link href="../static/styles/css/bootstrap.css" rel="stylesheet">
     <link href="../static/styles/css/bootstrap-grid.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="icon" type="image/png" href="../static/assets/logo.jpeg" />
+    <link rel="icon" type="image/png" href="../static/assets/logo.jpeg"/>
 
 
 </head>
@@ -48,7 +48,7 @@
         <div class="col-6">
             <section>
                 <p class="text-center" id="article-content">
-                    {{article_content}}
+                    <!--{{article_content_fr}}-->
                 </p>
             </section>
 
@@ -69,7 +69,7 @@
 
                 <button id="but_true" type="button" class="btn btn-success">Vrai</button>
                 <button id="but_false" type="button" class="btn btn-danger">Faux</button>
-
+                <button id="but_original" type="button" class="btn btn-primary">Afficher l'original</button>
             </p>
         </div>
 
@@ -91,15 +91,17 @@
     <div id="myModal_finish" class="modal">
         <!-- Modal content -->
         <div class="modal-perso">
-            <h1 id = "victory_or_defeat" class="text-center"></h1>
+            <h1 id="victory_or_defeat" class="text-center"></h1>
             <p id="player_score_finish" class="text-center">Voici votre score: </p>
             <p id="ai_score_finish" class="text-center">Voici le score de l'IA: </p>
             <p class="text-center" id="replay-text">Voulez vous rejouer une partie?</p>
             <center>
-                <button class="btn btn-success" id="yes_replay" onclick="window.location.href='{{ url_for( 'game' ) }}';">Oui, je veux rejouer
+                <button class="btn btn-success" id="yes_replay"
+                        onclick="window.location.href='{{ url_for( 'game' ) }}';">Oui, je veux rejouer
                     !
                 </button>
-                <button class="btn btn-danger" id="no_replay" onclick="window.location.href='{{ url_for( 'index' ) }}';">Non, je ne veux pas
+                <button class="btn btn-danger" id="no_replay"
+                        onclick="window.location.href='{{ url_for( 'index' ) }}';">Non, je ne veux pas
                 </button>
             </center>
         </div>
@@ -108,6 +110,12 @@
 </div>
 
 </body>
+
+<script>
+    var translated_article = {{article_content_fr|tojson|safe}};
+    console.log(translated_article)
+    var original_article = {{article_content_en|tojson|safe}};
+</script>
 <script src="../static/js/functions.js?15"></script>
 
 </html>

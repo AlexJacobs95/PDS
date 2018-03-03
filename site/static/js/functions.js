@@ -14,6 +14,25 @@ var article_content = document.getElementById("article-content");
 var article_counter_text = document.getElementById("article-counter");
 var article_counter = 1;
 
+var original_button = document.getElementById("but_original");
+
+var state = "translated";
+
+article_content.innerHTML = translated_article;
+
+original_button.onclick = function () {
+    if (state == "translated") {
+        article_content.innerHTML = original_article;
+        state = "original";
+        original_button.innerHTML = "Afficher la traduction"
+    } else {
+        article_content.innerHTML = translated_article;
+        state = "translated";
+        original_button.innerHTML = "Afficher l'original"
+    }
+};
+
+
 // When the user clicks the button, open the modal
 btn_t.onclick = function () {
     sendAnswer(true)
@@ -21,17 +40,6 @@ btn_t.onclick = function () {
 
 btn_f.onclick = function () {
     sendAnswer(false)
-};
-
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target === modal_t) {
-        modal_t.style.display = "none";
-    }
-    if (event.target === modal_f) {
-        modal_f.style.display = "none";
-    }
 };
 
 var popupTime = 1500;
@@ -98,9 +106,14 @@ function sendAnswer(answer) {
 
         } else {
             setTimeout(function () {
-                article_content.innerHTML = resFromServer['newArticleContent'];
+                translated_article = JSON.parse(JSON.stringify(resFromServer['newArticleContent_fr']));
+                article_content.innerHTML = translated_article;
+                original_article = JSON.parse(JSON.stringify(resFromServer['newArticleContent_en']));
                 article_counter = article_counter + 1;
                 article_counter_text.innerHTML = "Article ".concat(article_counter.toString()).concat(" sur 5");
+                state = "translated";
+                original_button.innerHTML = "Afficher l'original";
+
             }, popupTime)
         }
     }).fail(function () {
@@ -120,6 +133,7 @@ function showPopupAnswer() {
         modal_answer.style.display = "none";
     }, popupTime);
 }
+
 function toggleShow() {
     var x = document.getElementById("copyPasteZone");
     var btn = document.getElementById("buttonShowCopyPasteZone");
@@ -133,10 +147,10 @@ function toggleShow() {
 function SendTextToServer() {
     var textToAnalyse = document.getElementById('textToAnalyse');
     textToAnalyse = textToAnalyse.value;
-    if (textToAnalyse === ''){
+    if (textToAnalyse === '') {
         alert('Veuillez entrer un article en Anglais. SVP.');
     }
-    else{
+    else {
         sendText(textToAnalyse);
     }
 }
@@ -174,11 +188,11 @@ function ShowPopupAnalyseResult(result) {
 
     var text = document.getElementById("resultText");
     var popup = document.getElementById('myModal_analyse');
-    if (result){
+    if (result) {
         text.innerHTML = "VRAI !";
         text.style.color = "green";
     }
-    else{
+    else {
         text.innerHTML = "FAUX !";
         text.style.color = "red";
     }

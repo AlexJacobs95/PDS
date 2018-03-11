@@ -43,7 +43,11 @@
         </div>
 
         <div class="col">
-            <p class="text-center" id="player-score">0</p>
+            <center>
+                <label>Score: </label><pre id="player-score">0</pre>
+                <p class="text-center">Vos Réponses:</p>
+                <pre class="text-center" id="player_answer_text"></pre>
+            </center>
         </div>
         <div class="col-6">
             <section>
@@ -55,10 +59,11 @@
 
         </div>
         <div class="col">
-            <p class="text-center" id="AI-score">
-                0
-            </p>
-
+            <center>
+                <label>Score: </label><pre id="AI-score"> 0</pre>
+                <p class="text-center">Réponse:</p>
+                <pre class="text-center" id="ai_answer_text"></pre>
+            </center>
         </div>
     </div>
 
@@ -83,6 +88,8 @@
             <center><img id="player_answer_img" src="" style="height: 25%; width: 25%"> <img id="robot_answer_img"
                                                                                              src=""
                                                                                              style="height: 25%; width: 25%">
+            <br><br>
+            <button id="closeButtonModalAnswer" type="button" class="btn btn-primary">Fermer</button>
             </center>
         </div>
 
@@ -113,7 +120,6 @@
 
 <script>
     var translated_article = {{article_content_fr|tojson|safe}};
-    console.log(translated_article)
     var original_article = {{article_content_en|tojson|safe}};
 </script>
 <script src="../static/js/functions.js?15"></script>

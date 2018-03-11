@@ -5,6 +5,7 @@ var modal_answer = document.getElementById('myModal_answer');
 // Get the button that opens the modal
 var btn_t = document.getElementById("but_true");
 var btn_f = document.getElementById("but_false");
+var btn_close = document.getElementById("closeButtonModalAnswer");
 
 
 var player_score_el = document.getElementById("player-score");
@@ -42,6 +43,9 @@ btn_f.onclick = function () {
     sendAnswer(false)
 };
 
+btn_close.onclick = function () {
+    modal_answer.style.display = "none";
+}
 var popupTime = 1500;
 
 function sendAnswer(answer) {
@@ -50,6 +54,9 @@ function sendAnswer(answer) {
     }).done(function (resFromServer) {
         var playerScore = parseInt(player_score_el.innerHTML);
         var aiScore = parseInt(ai_score_el.innerHTML);
+        var player_answer_text = document.getElementById("player_answer_text");
+        var ai_answer_text = document.getElementById("ai_answer_text");
+        console.log(playerScore.toString());
 
         if (resFromServer['aiCorrect'] === true) {
             aiScore += 1;
@@ -75,8 +82,12 @@ function sendAnswer(answer) {
 
         showPopupAnswer();
 
+        var text = document.createTextNode("Article "+ article_counter.toString() +": " + ((resFromServer["correct"]) ? " Faux\n" : " Vrai\n"));
+        player_answer_text.appendChild(text);
+        text = document.createTextNode("Article "+ article_counter.toString() +": " + ((resFromServer["aiCorrect"]) ? " Faux\n" : " Vrai\n"));
+        ai_answer_text.appendChild(text);
+
         if (resFromServer['displayPopupFinish'] === true) {
-            console.log("doit afficher popup de fin");
 
             var playerScoreModalEl = document.getElementById("player_score_finish");
             var playerScoreText = document.createTextNode(playerScore.toString());
@@ -129,9 +140,6 @@ function showPopupFinish() {
 
 function showPopupAnswer() {
     myModal_answer.style.display = "block";
-    setTimeout(function () {
-        modal_answer.style.display = "none";
-    }, popupTime);
 }
 
 function toggleShow() {

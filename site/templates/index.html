@@ -33,7 +33,7 @@
             </button></center>
             <br><br>
             <div id="copyPasteZone" style="display: none">
-               <textarea id ="textToAnalyse" placeholder="Coller votre article ici, Paste your article here">
+               <textarea id ="textToAnalyse" placeholder="Coller votre article ici, Paste your article here" style="width: 70%; height: 400px">
                </textarea>
                 <br> <br>
                 <button type="buttonSubmitText" onclick="SendTextToServer()"
@@ -49,13 +49,12 @@
 <div id="myModal_analyse" class="modal">
         <!-- Modal content -->
         <div class="modal-perso">
-            <p id="analyseTextResult" class="text-center">Notre algorithme a analysé votre article <br> et nous avons déterminé que celui-ci est </p><p class="text-center" id="resultText"></p>
+            <p id="analyseTextResult" class="text-center">Notre algorithme a analysé votre article <br> et a prédit qu'il était </p><p class="text-center" id="resultText"></p>
             <p class="text-center" id="replay-text">Voulez vous analyser un autre article?</p>
             <center>
-                <button class="btn btn-success" id="yes_replay" onclick="ClosePopup()">Oui, je le veux
-                    !
+                <button class="btn btn-success" id="yes_replay" onclick="ClosePopup()">Oui !
                 </button>
-                <button class="btn btn-danger" id="no_replay" onclick="CopyPasteZoneHide()">Non, je ne veux pas
+                <button class="btn btn-danger" id="no_replay" onclick="CopyPasteZoneHide()">Non
                 </button>
             </center>
         </div>

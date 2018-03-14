@@ -82,9 +82,9 @@ function sendAnswer(answer) {
 
         showPopupAnswer();
 
-        var text = document.createTextNode("Article "+ article_counter.toString() +": " + ((resFromServer["correct"]) ? " Faux\n" : " Vrai\n"));
+        var text = document.createTextNode("Article "+ article_counter.toString() +": " + ((resFromServer["correct"]) ? " Correct\n" : " Incorrect\n"));
         player_answer_text.appendChild(text);
-        text = document.createTextNode("Article "+ article_counter.toString() +": " + ((resFromServer["aiCorrect"]) ? " Faux\n" : " Vrai\n"));
+        text = document.createTextNode("Article "+ article_counter.toString() +": " + ((resFromServer["aiCorrect"]) ?  " Correct\n" : " Incorrect\n"));
         ai_answer_text.appendChild(text);
 
         if (resFromServer['displayPopupFinish'] === true) {

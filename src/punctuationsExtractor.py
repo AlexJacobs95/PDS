@@ -36,8 +36,10 @@ class PunctuationExtractor:
         return features
 
     def extract_test(self, data):
-        features = self.vectorizer.transform(data.text)
-
+        try:
+            features = self.vectorizer.transform(data.text)
+        except AttributeError:  # Not a dataframe, just an article
+            features = self.vectorizer.transform(data)
         return features
 
     def get_vectorizer(self):

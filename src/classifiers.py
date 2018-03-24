@@ -11,7 +11,7 @@ from sklearn import feature_selection
 from sklearn.neighbors import NearestCentroid
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import RidgeClassifier, SGDClassifier, Perceptron, PassiveAggressiveClassifier, \
-    LogisticRegression
+    LogisticRegression, LinearRegression
 
 
 class Result:
@@ -134,6 +134,7 @@ if __name__ == '__main__':
                     (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
                     (Perceptron(max_iter=50), "Perceptron"),
                     (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
+                    (LinearRegression(), "Linear Regression"),
                     # (KNeighborsClassifier(n_neighbors=10), "kNN"),
                     # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
                     (MultinomialNB(), 'Naive Bayes'),

@@ -54,12 +54,12 @@ def benchmark(clf, name):
     # print("test time:  %0.3fs" % test_time)
 
     score = metrics.accuracy_score(dataframe_test.code, pred)
-    # print("Stats :")
-    # print(metrics.classification_report(dataframe_test.code, pred))
-    # print()
+    print("Stats :")
+    print(metrics.classification_report(dataframe_test.code, pred))
+    print()
 
     cm = metrics.confusion_matrix(dataframe_test.code, pred)
-    # plotConfusionMatrix(name, confusion_matrix=cm)
+    plotConfusionMatrix(name, confusion_matrix=cm)
 
     return Result(name, score, train_time, test_time)
 
@@ -116,46 +116,55 @@ if __name__ == '__main__':
 
     selector = feature_selection.VarianceThreshold()
 
-    for size_of_combinations in range(1, len(all_features) + 1):
+    train_features = sparse.hstack([tfidf_train, punctuation_train, pronouns_train])
+    test_features = sparse.hstack([tfidf_test, punctuation_test, pronouns_test])
+    clf = RidgeClassifier(tol=1e-2, solver="sag")
+    benchmark(clf, "Ridge Classifier")
+    plt.show()
 
-        features_combinations = itertools.combinations(all_features, size_of_combinations)
 
-        for combination in features_combinations:
-            print("features : ", [feature[2] for feature in combination])
 
-            train_features = sparse.hstack([feature[0] for feature in combination])
-            test_features = sparse.hstack([feature[1] for feature in combination])
 
-            # train_features = sparse.load_npz('../features/tfidf_train_features.npz')
-            # test_features = sparse.load_npz('../features/tfidf_test_features.npz')
-
-            results = []
-            for clf, name in (
-                    (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
-                    (Perceptron(max_iter=50), "Perceptron"),
-                    (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
-                    (LinearRegression(), "Linear Regression"),
-                    # (KNeighborsClassifier(n_neighbors=10), "kNN"),
-                    # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
-                    (MultinomialNB(), 'Naive Bayes'),
-                    (LogisticRegression(), 'Logistic regression'),
-                    (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
-                    (NearestCentroid(), 'Nearest centroid')
-            ):
-                # print('=' * 80)
-                # print(name)
-                results.append(benchmark(clf, name))
-            # showRanking(results)
-            # plt.show()
-
-            results.sort(key=lambda x: x.score, reverse=True)
-
-            features_used = [feature[2] for feature in combination]
-
-            print("best score = " + str(results[0].score) + " using " + str(results[0].clf))
-
-            best_res.append([results[0].score, results[0].clf, [feature for feature in features_used]])
-
-    best_res.sort(key=lambda x: x[0], reverse=True)
-    for elem in best_res:
-        print(elem)
+    # for size_of_combinations in range(1, len(all_features) + 1):
+    #
+    #     features_combinations = itertools.combinations(all_features, size_of_combinations)
+    #
+    #     for combination in features_combinations:
+    #         print("features : ", [feature[2] for feature in combination])
+    #
+    #         train_features = sparse.hstack([feature[0] for feature in combination])
+    #         test_features = sparse.hstack([feature[1] for feature in combination])
+    #
+    #         # train_features = sparse.load_npz('../features/tfidf_train_features.npz')
+    #         # test_features = sparse.load_npz('../features/tfidf_test_features.npz')
+    #
+    #         results = []
+    #         for clf, name in (
+    #                 (RidgeClassifier(tol=1e-2, solver="sag"), "Ridge Classifier"),
+    #                 (Perceptron(max_iter=50), "Perceptron"),
+    #                 (PassiveAggressiveClassifier(max_iter=50), "Passive-Aggressive"),
+    #                 #(LinearRegression(), "Linear Regression"),
+    #                 # (KNeighborsClassifier(n_neighbors=10), "kNN"),
+    #                 # (svm.SVC(kernel='linear', C=0.01), 'SVM'),
+    #                 (MultinomialNB(), 'Naive Bayes'),
+    #                 (LogisticRegression(), 'Logistic regression'),
+    #                 (SGDClassifier(alpha=.0001, max_iter=50, penalty="elasticnet"), 'SGD Elastic Net'),
+    #                 (NearestCentroid(), 'Nearest centroid')
+    #         ):
+    #             # print('=' * 80)
+    #             # print(name)
+    #             results.append(benchmark(clf, name))
+    #         # showRanking(results)
+    #         # plt.show()
+    #
+    #         results.sort(key=lambda x: x.score, reverse=True)
+    #
+    #         features_used = [feature[2] for feature in combination]
+    #
+    #         print("best score = " + str(results[0].score) + " using " + str(results[0].clf))
+    #
+    #         best_res.append([results[0].score, results[0].clf, [feature for feature in features_used]])
+    #
+    # best_res.sort(key=lambda x: x[0], reverse=True)
+    # for elem in best_res:
+    #     print(elem)

@@ -30,10 +30,12 @@ def extractFeatureWithVectorizer(extractor, feature_name, dataset, train=False):
     else:
         path = SAVE_PATH + feature_name + '_test_features.npz'
 
-    sparse.save_npz(path, features)
+    #sparse.save_npz(path, features)
 
     extract_time = time.time() - start
     print("extract time: %0.3fs" % extract_time)
+
+    return features
 
 
 def extractFeature(feature_name, dataset, train=False):
